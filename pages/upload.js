@@ -4,13 +4,14 @@ import Layout from '../components/layout'
 import Steps from '../components/steps'
 import {motion} from 'framer-motion'
 import Link from 'next/link'
+import Upload from '../components/upload'
 export default function Home() {
   return (
     <>
     <Layout>
       <div className="container flex justify-center">
         <div>
-        <Steps />
+        <Steps  eins='true' />
 <motion.div initial="hidden" animate="visible" variants={{
   hidden: {
     scale: 0.8,
@@ -26,38 +27,19 @@ export default function Home() {
 }}>
 <div className="container-sm px-20 font-sans-roboto mt-20" >
       <h1 className="text-4xl font-light text-center ">
-        At the beginning we want you to
+        Now upload or drag&drop
       </h1>
 
       <h3 className="text-2xl font-medium text-center mb-10">
-        upload your eventlog
+        eventlog data
       </h3>
 
-      <ul className="text-left px-20 font-normal">
-        <li className="font-bold">
-          
-Look how the uploading log should look like:
-        </li>
-        <li>
-          Eventlog should contain Case ID and Activity column
-          </li>
-          <li>
-          Accepted file types: csv, xes
-          </li>
-      </ul>
-      </div>
-
-      <div className="mx-auto font-sans text-center mt-10">
-        <button className="mr-2 bg-transparent hover:bg-gray-500 text-gray-700 font-semibold hover:text-gray py-2 px-4 border border-gray-500 hover:border-transparent rounded">
-          Back
-        </button>
-        <Link href="/upload">
-        <button className="ml-2 bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded">
-          CONTINUE
-        </button>
-        </Link>
+      
+        <Upload/>
 
       </div>
+    
+  
       </motion.div>
       </div>
       </div>

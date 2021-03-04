@@ -8,8 +8,23 @@
     "start": "next start"
   },
   "dependencies": {
+    "@nivo/bar": "^0.67.0",
+    "@nivo/core": "^0.67.0",
+    "axios": "^0.21.1",
+    "framer-motion": "^3.7.0",
+    "html2canvas": "^1.0.0-rc.7",
+    "jspdf": "^1.4.1",
     "next": "10.0.7",
+    "next-redux-wrapper": "^6.0.2",
+    "nivo": "^0.31.0",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-d3-library": "^1.1.8",
+    "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
+    "recharts": "^2.0.8",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "svg2pdf": "^1.1.1",
+    "svg2pdf.js": "^2.1.0"
   }
 }
