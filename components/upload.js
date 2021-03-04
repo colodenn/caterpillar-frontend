@@ -21,11 +21,11 @@ let data;
     setSelectedFile(fileUploaded)
    // props.handleFile(fileUploaded);
   };
-
+  console.log(process.env.BACKEND_URL)
   const uploadClick = event => {
     var formData = new FormData();
     formData.append('file',selectedFile)
-    axios.post(env.BACKEND_URL, formData, {
+    axios.post(process.env.BACKEND_URL, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }

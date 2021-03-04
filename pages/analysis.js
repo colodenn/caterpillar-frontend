@@ -19,12 +19,17 @@ if (typeof window !== "undefined") {
   });
 }
 
+var te,data,resourceCount;
 
 export default function Home()  {
-  const te = JSON.parse(localStorage.getItem('data'))
- 
-  const data = JSON.parse(localStorage.getItem('data')).activitiesCount
-  const resourceCount = JSON.parse(localStorage.getItem('data')).resourceCount
+
+  if (typeof window !== "undefined") {
+    te = JSON.parse(localStorage.getItem('data'))
+     
+    data = JSON.parse(localStorage.getItem('data')).activitiesCount
+    resourceCount = JSON.parse(localStorage.getItem('data')).resourceCount
+    
+    }
   const print = () => {
  
     html2canvas(document.getElementById('test'),{scale: 1}).then(function (canvas) {
