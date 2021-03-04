@@ -10,6 +10,7 @@
   "dependencies": {
     "@nivo/bar": "^0.67.0",
     "@nivo/core": "^0.67.0",
+    "autoprefixer": "^10.2.4",
     "axios": "^0.21.1",
     "framer-motion": "^3.7.0",
     "html2canvas": "^1.0.0-rc.7",
@@ -17,10 +18,12 @@
     "next": "10.0.7",
     "next-redux-wrapper": "^6.0.2",
     "nivo": "^0.31.0",
+    "postcss": "^8.2.7",
     "react": "17.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "tailwindcss": "^2.0.3"
   }
 }
