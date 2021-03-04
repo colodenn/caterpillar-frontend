@@ -25,7 +25,7 @@ let data;
   const uploadClick = event => {
     var formData = new FormData();
     formData.append('file',selectedFile)
-    axios.post('http://localhost:5000/', formData, {
+    axios.post(env.BACKEND_URL, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
