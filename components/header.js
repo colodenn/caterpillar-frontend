@@ -7,7 +7,7 @@ const Header = () => {
     <div className="flex justify-between items-center border-b-0 border-gray-100 py-6 md:justify-start md:space-x-10">
       <div className="flex justify-start lg:w-0 lg:flex-1">
         <a href="#" className="flex">
-          <h1 className="font-bold text-4xl ml-4 text-center align-middle text-indigo-600">Caterpillar</h1>
+          <img src="/Group 28.png" width="160"></img>
         </a>
       </div>
       <div className="-mr-2 -my-2 md:hidden">
