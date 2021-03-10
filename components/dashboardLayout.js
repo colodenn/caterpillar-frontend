@@ -34,7 +34,7 @@ const DashboardLayout = (props) => {
           // Firefox requires some kind of initialization
           // which we can do by adding this attribute
           // @see https://bugzilla.mozilla.org/show_bug.cgi?id=568313
-          onDragStart={e => e.dataTransfer.setData("text/plain", "")}>
+          onDragStart={e => e.dataTransfer.setData('text/plain', '{"color":"#C71585","h":2,"w":2,"name":"Event count","api": "http://localhost:5000/api/eventcount/RequestForPayment.xes"}')}>
 
 <img src="/grabme.svg"></img>
 <div>
@@ -45,15 +45,15 @@ const DashboardLayout = (props) => {
 </div>
 <div>
   <p>
-      Case count
+      This should produce a green tile
   </p>
   <p>
-      case count with bar chart
+      size of 2x2
   </p>
 </div>
 </div>
        
-<div   className="flex cursor-pointer droppable-element"
+<div   className="mt-5 flex cursor-pointer droppable-element"
           draggable={true}
           unselectable="on"
 
@@ -61,7 +61,7 @@ const DashboardLayout = (props) => {
           // Firefox requires some kind of initialization
           // which we can do by adding this attribute
           // @see https://bugzilla.mozilla.org/show_bug.cgi?id=568313
-          onDragStart={e => e.dataTransfer.setData("text/plain", "")}>
+          onDragStart={e => e.dataTransfer.setData("text/plain", '{"color":"#C71585","h":1,"w":1,"name":"Event count"}')}>
 
 <img src="/grabme.svg"></img>
 <div>
@@ -72,10 +72,10 @@ const DashboardLayout = (props) => {
 </div>
 <div>
   <p>
-     Event count
+     This should produce a red tile
   </p>
   <p>
-      case count with bar chart
+      and be 2x2
   </p>
 </div>
 </div>
