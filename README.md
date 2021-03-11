@@ -1,8 +1,8 @@
-Abstract
+**Abstract**
 The tool we are developing should be able to analyze logs automatically and display this visually on a web page. The analyses can be exported as PDF afterwards, additionally the used Python code is provided for further processing.
 With our tool a quick analysis of a data set is possible to get an insight into the data without the user having specific IT and programming knowledge.
 
-Usage
+**Usage**
 The user starts by uploading his log as a csv or xes file. He can then view the analysis results. Initially, a part of the log, specific key figures and a Petri net as a process model are displayed. The user can additionally request further analyses such as clustering, compliance and variance. The structure of the analysis is discussed in more detail in Description Features. Now the user can choose if and which results he wants to export as PDF and as Python code.
 
 
