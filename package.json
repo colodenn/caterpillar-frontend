@@ -12,6 +12,8 @@
     "@dnd-kit/sortable": "^1.0.2",
     "@nivo/bar": "^0.67.0",
     "@nivo/core": "^0.67.0",
+    "@nivo/pie": "^0.67.0",
+    "Dante2": "^0.5.0-rc4",
     "autoprefixer": "^10.2.4",
     "axios": "^0.21.1",
     "framer-motion": "^3.7.0",
@@ -28,6 +30,7 @@
     "react-flow-renderer": "^9.1.1",
     "react-grid-layout": "^1.2.2",
     "react-redux": "^7.2.2",
+    "react-tabs": "^3.2.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "tailwindcss": "^2.0.3"
