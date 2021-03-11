@@ -11,8 +11,41 @@ import { map, set } from 'lodash';
 import axios from 'axios';
 
 
+import { resetIdCounter } from 'react-tabs';
+
 export default function  dashboard() {
   
+resetIdCounter();
+
+function tiles(exp,el) {
+  var html = <h1>test</h1>
+  console.log(exp)
+  console.log(el)
+  switch (exp) {
+    case 'image':
+      console.log(el.data)
+      html = <img  src={el.data} />
+      break;
+    
+    case 'number':
+      html = ( <p className="text-center font-bold text-3xl align-middle py-4">
+      {el.data.data}
+        </p>)
+      break;
+
+    case 'piechart':
+      html = (
+        <Piechart dat={el.data.data} />
+      )
+      break;
+    
+    default:
+      html = <p>testdefault</p>
+      break;
+  }
+  return html
+
+}
  
   const layout1 = [
     {i: '1', x: 0, y: 0, w: 4, h: 3,name: "Start adding tiles", data: {data: []}},
@@ -32,14 +65,15 @@ export default function  dashboard() {
       // setLayout(() => layout.concat({i: String(layoutState.length + 1), x:layoutItem.x,y:layoutItem.y,w:layoutItem.w,h:layoutItem.h}))
       // console.log(layout.concat({i: String(layoutState.length + 1), x:layoutItem.x,y:layoutItem.y,w:layoutItem.w,h:layoutItem.h}))
       var data = JSON.parse(_event.dataTransfer.getData('text/plain'))
-      console.log(changeLayout)
-      console.log(layoutState)
-
-      console.log(layoutsState)
-      console.log(layout)
+      
       
       layout.splice(0,layoutState.length,...layoutState) 
- 
+      layout[layoutState.length-1].x = changeLayout[layoutState.length-1].x
+      layout[layoutState.length-1].y = changeLayout[layoutState.length-1].y
+      layout[layoutState.length-1].w = changeLayout[layoutState.length-1].w
+      layout[layoutState.length-1].h = changeLayout[layoutState.length-1].h
+      layout.pop()
+
       layout[layoutState.length] =  {i: String(layoutState.length + 1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}
       setLayout([...layout])
       setLayouts({
@@ -49,9 +83,16 @@ export default function  dashboard() {
         xs: [...layout], 
         xxs: [...layout]
     })
-    var response =  await axios.get(data.api)
+    
+    if(data.types === 'image') {
+      layout[layoutState.length].data =  data.api
 
-      layout[layoutState.length].data =  response.data
+    } else {
+      var response =  await axios.get(data.api)
+      layout[layoutState.length].data =  response.data 
+    }
+      
+    
       setLayout([...layout])
       setLayouts({
           lg: [...layout],
@@ -72,7 +113,7 @@ export default function  dashboard() {
   }
 
   const onLayoutChange = (layout, layouts) => {
-     changeLayout = layouts
+     changeLayout = layout
     
   }
 
@@ -101,7 +142,6 @@ export default function  dashboard() {
         isDroppable={true}
         autoSize={true}
         >
-        
           {
            layoutState.map( el => {
              return (
@@ -122,50 +162,41 @@ export default function  dashboard() {
                      <button onClick={() => deleteT(el.i)}  >delete</button>
                    </div>
                   </div>
-                  {el.type == "number" ? (
-                    <p className="text-center font-bold text-3xl align-middle py-4">
-                    {el.data.data}
-                      </p>
-                  ):
-                  (
-                    // <Barchart dat={el.data} />
-                      <>
-
-                      <Piechart dat={el.data.data} />
-
-
-                      
+                 <>
+                  { tiles(el.type,el) }
+                 </>
                     
-                        </>
-                    )
 
                   
-                  }
+                  
                 
-                      <style jsx>{`
-        .border-b-1 {
-            border-bottom: 1px solid #E8E8EF;
-
-        }
-
-        .border-r-1 {
-            border-right: 1px solid #E8E8EF;
-
-        }
-         
-        .backgroundTile {
-            background-image: url('/tile.png');
-            background-repeat: repeat;
-            background-size: 30px 30px;
-            background-color: #FBFBFB;
-        }
-      `}</style>
                   </div>
                   
-             )
-           }) 
+                  )
+                }) 
+                
+              }
+        
+         
+              <style jsx>{`
+        
+.border-b-1 {
+    border-bottom: 1px solid #E8E8EF;
 
-          }
+}
+
+.border-r-1 {
+    border-right: 1px solid #E8E8EF;
+
+}
+ 
+.backgroundTile {
+    background-image: url('/tile.png');
+    background-repeat: repeat;
+    background-size: 30px 30px;
+    background-color: #FBFBFB;
+}
+`}</style>
 
           
         
