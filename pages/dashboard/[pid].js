@@ -2,12 +2,8 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 import React, {useState} from 'react';
 const ResponsiveGridLayout = WidthProvider(Responsive);
 import DashboardLayout from '../../components/dashboardLayout'
-import EventCount from '../../components/eventcount'
 import Piechart from '../../components/piechart'
-import Dante from 'Dante2'
 
-import Barchart from '../../components/barchart'
-import { map, set } from 'lodash';
 import axios from 'axios';
 
 import { useRouter } from 'next/router'

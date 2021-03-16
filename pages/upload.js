@@ -1,5 +1,3 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
 import Layout from '../components/layout'
 import Steps from '../components/steps'
 import {motion} from 'framer-motion'

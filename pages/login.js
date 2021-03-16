@@ -2,9 +2,11 @@ import { useRouter } from 'next/router'
 import { Magic } from 'magic-sdk'
 // const checkAuth = dynamic(() => import('../lib/checkLogin'))
 import useAuth from "../hooks/useAuth";
+import Cookies from 'universal-cookie';
 
 export default function Login() {
   const { user, loading } = useAuth();
+  const cookies = new Cookies();
 
   // checkAuth('/dashboard/dashboard')
   
@@ -13,6 +15,7 @@ export default function Login() {
   if(user){
     router.push('/dashboard/dashboard')
   }
+  
 
 
   const handleSubmit = async (event) => {
@@ -26,16 +29,24 @@ export default function Login() {
       .loginWithMagicLink({ email: elements.email.value })
 
     // Once we have the did from magic, login with our own API
-    const authRequest = await fetch('/api/login', {
+    const authRequest = await fetch('http://localhost:5000/v1/user/login', {
       method: 'POST',
-      headers: { Authorization: `Bearer ${did}` }
-    })
-
-    if (authRequest.ok) {
+      headers: { Authorization: `Bearer ${did}` },
+     
+    }).then(response => {
+      if (response.ok) {
+        response.json().then(json => {
+         cookies.set('api_token', json.did_token, { path: '/' });
       // We successfully logged in, our API
       // set authorization cookies and now we
       // can redirect to the dashboard!
-      router.push('/dashboard/dashboard')
+      router.push('/dashboard/test')
+        });
+      }
+    });
+
+    if (authRequest) {
+    
     } else { /* handle errors */ }
   }
   return (
