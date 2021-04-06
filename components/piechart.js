@@ -2,7 +2,8 @@ import { ResponsivePie } from '@nivo/pie'
 
 const Piechart = (props) => {
         const data = props.dat
-        if (data === undefined) {
+
+        if (data === undefined || data === "") {
             return <h1>loading</h1>
         } else {
             return (

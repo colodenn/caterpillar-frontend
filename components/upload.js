@@ -1,4 +1,5 @@
 import React,{ useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 
 import Link from 'next/link'
 import axios from 'axios'
@@ -25,18 +26,37 @@ let data;
   const uploadClick = event => {
     var formData = new FormData();
     formData.append('file',selectedFile)
-    axios.post(process.env.BACKEND_URL, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-  }).then(res => {
+
+    const did = Cookies.get('api_token')
+    console.log(did)
+    var myHeaders = new Headers();
+    myHeaders.append("api_token", did)
+    const file = fetch('http://localhost:5000/uploadFile', {
+            method: 'POST',
+            credentials: 'include',
+            headers: myHeaders,
+            body: formData
+          }).then(
+            router.push('/analysis')
+          )  
+
+          
+  // const did = Cookies.get('api_token')
+  // var myHeaders = new Headers();
+  // myHeaders.append("api_token", did)
+  // myHeaders.append('Content-Type', 'multipart/form-data')
+  // myHeaders.append('withCredentials', true)
+
+  //   axios.post(process.env.BACKEND_URL, formData, {
+  //     headers: myHeaders
+  // },{ withCredentials: true }).then(res => {
     
-    if (typeof window !== 'undefined') {
-      console.log(JSON.stringify(res.data))
-      localStorage.setItem('data', JSON.stringify(res.data))
-      router.push('/analysis')
-    }
-  })
+  //   if (typeof window !== 'undefined') {
+  //     console.log(JSON.stringify(res.data))
+  //     localStorage.setItem('data', JSON.stringify(res.data))
+  //     router.push('/analysis')
+  //   }
+  // })
   }
   React.useEffect(() => {
     

@@ -3,38 +3,35 @@ import React, {useState} from 'react';
 const ResponsiveGridLayout = WidthProvider(Responsive);
 import DashboardLayout from '../../components/dashboardLayout'
 import Piechart from '../../components/piechart'
-
-import axios from 'axios';
+import Cookies from 'js-cookie';
 
 import { useRouter } from 'next/router'
 
 import { resetIdCounter } from 'react-tabs';
 
-export default function  dashboard() {
+export default function  dashboardSlug() {
   const router = useRouter()
   const { pid } = router.query
-  console.log(pid)
 resetIdCounter();
 
 function tiles(exp,el) {
   var html = <h1>test</h1>
-  console.log(exp)
-  console.log(el)
   switch (exp) {
     case 'image':
-      console.log(el.data)
       html = <img  src={el.data} />
       break;
     
     case 'number':
+    
       html = ( <p className="text-center font-bold text-3xl align-middle py-4">
-      {el.data.data}
+      {el.data}
         </p>)
       break;
 
     case 'piechart':
+
       html = (
-        <Piechart dat={el.data.data} />
+        <Piechart dat={el.data} />
       )
       break;
     
@@ -47,7 +44,7 @@ function tiles(exp,el) {
 }
  
   const layout1 = [
-    {i: '1', x: 0, y: 0, w: 1, h: 1,static:"true",name: "Start adding tiles", data: {data: []}},
+    {i: '1', x: 0, y: 0, w: 2, h: 2,static: true,name: "Start adding tiles", data: {data: []}},
 
   ];
   var layoutst = {
@@ -66,6 +63,8 @@ function tiles(exp,el) {
       var data = JSON.parse(_event.dataTransfer.getData('text/plain'))
       
       layout.splice(0,layoutState.length,...layoutState) 
+      console.log(changeLayout.length)
+      console.log(changeLayout)
       layout[layoutState.length-1].x = changeLayout[layoutState.length-1].x
       layout[layoutState.length-1].y = changeLayout[layoutState.length-1].y
       layout[layoutState.length-1].w = changeLayout[layoutState.length-1].w
@@ -81,13 +80,22 @@ function tiles(exp,el) {
         xs: [...layout], 
         xxs: [...layout]
     })
+    console.log(data.types)
     
     if(data.types === 'image') {
       layout[layoutState.length].data =  data.api
 
     } else {
-      var response =  await axios.get(data.api)
-      layout[layoutState.length].data =  response.data 
+      const did = Cookies.get('api_token')
+      var myHeaders = new Headers();
+      myHeaders.append("api_token", did)
+      var response = await fetch(data.api, {
+              method: 'GET',
+              credentials: 'include',
+              headers: myHeaders,
+            }).then(res => res.json())
+
+      layout[layoutState.length].data =  await response.data
     }
       
     
@@ -100,13 +108,10 @@ function tiles(exp,el) {
           xxs: [...layout]
       })
 
-    
   }
     
   function click() {
-    console.log(layoutState)
-    console.log(layoutsState)
-    console.log(changeLayout)
+    
 
   }
 
@@ -116,10 +121,8 @@ function tiles(exp,el) {
   }
 
   function deleteT(i){
-    console.log(layoutState)
       var newLayout = layoutState.filter((el) => el.i != i)
       setLayout([...newLayout])
-      console.log(i)
   
   }
 
