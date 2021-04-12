@@ -1,72 +1,49 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-import Layout from '../components/layout'
-import Steps from '../components/steps'
-import {motion} from 'framer-motion'
-import Link from 'next/link'
+import Header from '../components/landing/Header'
+
+
 export default function Home() {
   return (
     <>
-    <Layout>
-      <div className="container flex justify-center">
-        <div>
-        <Steps />
-<motion.div initial="hidden" animate="visible" variants={{
-  hidden: {
-    scale: 0.8,
-    opacity: 0
-  },
-  visible: {
-    scale: 1,
-    opacity: 1,
-    transition: {
-      delay: 0.2
-    }
-  }
-}}>
-<div className="container-sm px-20 font-sans-roboto mt-20" >
-      <h1 className="text-4xl font-light text-center ">
-        At the beginning we want you to
-      </h1>
-
-      <h3 className="text-2xl font-medium text-center mb-10">
-        upload your eventlog
-      </h3>
-
-      <ul className="text-left px-20 font-normal">
-        <li className="font-bold">
+      <div className="background h-screen overflow-hidden" >
+          <Header />
+          <main className="flex">
+            <div className="ml-72 mt-48">
+                <h1 className="text-6xl font-bold">
+                Get the most <br/>
+                out of your <br/>
+                Eventlogs
+              </h1>
+              <p>Quick and easy insights into your Eventlogs</p>
+              <div className="flex">
+                <button className="bg-pink-400 px-4 py-2 rounded text-white">
+                  Get started
+                </button>
+                <p>
+                  Only .xes and .csv
+                </p>
+              </div>
+            </div>
+            <div className="absolute right-0 mt-72 ">
+              <h1 id="huge" className="text-center font-bold  w-full h-full">
+                0 1 0 1 <br />
+                0 1 0 1 <br />
+                0 1 0 1
+              </h1>
+            </div>
+          </main>
           
-Look how the uploading log should look like:
-        </li>
-        <li>
-          Eventlog should contain Case ID and Activity column
-          </li>
-          <li>
-          Accepted file types: csv, xes
-          </li>
-      </ul>
       </div>
-
-      <div className="mx-auto font-sans text-center mt-10">
-        <button className="mr-2 bg-transparent hover:bg-gray-500 text-gray-700 font-semibold hover:text-gray py-2 px-4 border border-gray-500 hover:border-transparent rounded">
-          Back
-        </button>
-        <Link href="/upload">
-        <button className="ml-2 bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded">
-          CONTINUE
-        </button>
-        </Link>
-
-      </div>
-      </motion.div>
-      </div>
-      </div>
-    </Layout>
 
     <style jsx>{`
-        li {
-          margin-bottom: 40px;
-          
+        .background {
+          background: radial-gradient(66.35% 213.61% at 77.27% 52.1%, rgba(160, 158, 252, 0.52) 0%, rgba(254, 199, 255, 0.74) 100%);
+        }
+        #huge {
+          font-size: 500px;
+          transform: rotate(45deg);
+          letter-spacing: -0.105em;
+          line-height: 66.5%;
+
         }
 `}</style>
 
