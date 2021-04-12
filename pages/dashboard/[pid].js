@@ -42,7 +42,11 @@ function tiles(exp,el) {
   return html
 
 }
- 
+
+
+const did = Cookies.get('api_token')
+
+
   const layout1 = [
     {i: '1', x: 0, y: 0, w: 2, h: 2,static: true,name: "Start adding tiles", data: {data: []}},
 
@@ -107,16 +111,39 @@ function tiles(exp,el) {
           xs: [...layout], 
           xxs: [...layout]
       })
+      console.log(layoutState)
+      console.log(layoutsState)
+      var myHeaders = new Headers();
+      myHeaders.append("api_token", did)
+      myHeaders.append('Content-Type','application/json')
+      // send layoutState and layoutsState and Store on mongodb
+      const file = fetch(`http://localhost:5000/tiles/add/${pid}`, {
+        method: 'POST',
+        credentials: 'include',
+        
+        headers: myHeaders,
+        body: JSON.stringify({"data":layout})
+      }).then(res => console.log(res))  
 
   }
     
   function click() {
-    
+    var myHeaders = new Headers();
+    myHeaders.append("api_token", did)
+    const file = fetch(`http://localhost:5000/tiles/${pid}`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: myHeaders
+          }).then( res => res.json()).then( res => setLayout(res['data']))
+          console.log(layoutState)
+          console.log(layoutsState)
 
   }
 
   const onLayoutChange = (layout, layouts) => {
      changeLayout = layout
+    
+
     
   }
 
@@ -147,7 +174,7 @@ function tiles(exp,el) {
            layoutState.map( el => {
              return (
                 <div className="bg-white shadow-md rounded-md"  key={el.i}>
-                  <div onClick={click}  className="border-b-1 p-4 rounded-t flex justify-between">
+                  <div   className="border-b-1 p-4 rounded-t flex justify-between">
                    
                    <div className="flex">
 
@@ -162,6 +189,9 @@ function tiles(exp,el) {
                    <div className="my-auto">
                      <button onClick={() => deleteT(el.i)} className="bg-red-400 w-12 rounded-full text-white">
                         D
+                     </button>
+                     <button className="bg-green-400 w-12 rounded-full text-white" onClick={click}>
+                       click 
                      </button>
                    </div>
                   </div>
