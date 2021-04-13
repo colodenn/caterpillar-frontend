@@ -25,11 +25,13 @@ return (
             </div>
             <div className="flex mt-12">
                 
-                <button className="bg-black rounded-md text-white px-8 py-2 ">
                 <Link href="/login">
+                <button className="bg-black rounded-md text-white px-8 py-2 ">
+
                 Login
-                </Link>
                 </button>
+
+                </Link>
             </div>
         </div>
 

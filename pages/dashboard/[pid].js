@@ -36,7 +36,8 @@ function tiles(exp,el) {
       break;
     
     default:
-      html = <p className="p-4">This is static tile</p>
+      html = <textarea  defaultValue="write something here..."/>
+
       break;
   }
   return html
@@ -48,7 +49,7 @@ const did = Cookies.get('api_token')
 
 
   const layout1 = [
-    {i: '1', x: 0, y: 0, w: 2, h: 2,static: true,name: "Start adding tiles", data: {data: []}},
+    {i: '1', x: 0, y: 0, w: 3, h: 3,static: true,name: "Notes", data: {data: []}},
 
   ];
   var layoutst = {

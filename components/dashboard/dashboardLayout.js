@@ -6,9 +6,13 @@ import { useRouter } from 'next/router'
 const DashboardLayout = (props) => {
     const router = useRouter()
     const fileName = router.query.pid
-    // const fileName = window.location.pathname.substr( window.location.pathname.lastIndexOf('/') + 1)
     const statisticBlocks = [
-        {
+    {
+        'title': 'Notes',
+        'description': '3 x 3',
+        'data': `{"color":"#C71585","h":3,"w":3,"name":"Notes","api": "http://localhost:5000/api/eventcount/${fileName}","types":"notes"}`
+    },
+    {
         'title': 'Event count',
         'description': '1 x 1',
         'data': `{"color":"#C71585","h":1,"w":1,"name":"Event count","api": "http://localhost:5000/api/eventcount/${fileName}","types":"number"}`
@@ -23,6 +27,12 @@ const DashboardLayout = (props) => {
         'description': '4 x 3',
         'data': `{"color":"#C71585","h":3,"w":4,"name":"Event count","types":"piechart","api": "http://localhost:5000/api/activitesArray/${fileName}"}`
     },
+    {
+        'title': 'Mean Throughputtime',
+        'description': '2 x 2',
+        'data': `{"color":"#C71585","h":2,"w":2,"name":"Mean Throughputtime","types":"number","api": "http://localhost:5000/api/meanThroughputtime/${fileName}"}`
+    },
+    
     ]
 
     const discoveryBlocks = [
