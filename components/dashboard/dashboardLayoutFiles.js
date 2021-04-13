@@ -1,3 +1,6 @@
+import Upload from './upload'
+
+
 const DashboardLayoutFile = (props) => {
 
     return (
@@ -25,9 +28,10 @@ const DashboardLayoutFile = (props) => {
         <div className="flex disableScroll">
         <aside className="mt-0 fixed bg-white w-96 border-r-1 h-screen">
             <div className="flex mt-8">
-            <button className="hover:bg-blue-400 mx-auto bg-blue-500 px-4 py-2 text-white font-medium rounded">
-                Upload file
-            </button>
+                <div className="mx-auto ">
+                <Upload />
+                </div>
+         
             </div>
          
         </aside>

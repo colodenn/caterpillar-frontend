@@ -26,9 +26,7 @@ let data;
   const uploadClick = event => {
     var formData = new FormData();
     formData.append('file',selectedFile)
-
     const did = Cookies.get('api_token')
-    console.log(did)
     var myHeaders = new Headers();
     myHeaders.append("api_token", did)
     const file = fetch('http://localhost:5000/uploadFile', {
@@ -37,31 +35,8 @@ let data;
             headers: myHeaders,
             body: formData
           }).then(
-            router.push('/analysis')
           )  
-
-          
-  // const did = Cookies.get('api_token')
-  // var myHeaders = new Headers();
-  // myHeaders.append("api_token", did)
-  // myHeaders.append('Content-Type', 'multipart/form-data')
-  // myHeaders.append('withCredentials', true)
-
-  //   axios.post(process.env.BACKEND_URL, formData, {
-  //     headers: myHeaders
-  // },{ withCredentials: true }).then(res => {
-    
-  //   if (typeof window !== 'undefined') {
-  //     console.log(JSON.stringify(res.data))
-  //     localStorage.setItem('data', JSON.stringify(res.data))
-  //     router.push('/analysis')
-  //   }
-  // })
   }
-  React.useEffect(() => {
-    
-  })
-
     return (
     <>
 <div onClick={handleClick} className="border-2 p-2 border-dashed rounded cursor-pointer">
@@ -95,31 +70,16 @@ let data;
    <p>{selectedFile.name}</p>
     <p>{selectedFile.size} bytes</p>
           </div>
- 
-
-
       ) : (<></>)}
-          
     </div>
-
 </div>
 <div className="mx-auto font-sans text-center mt-10">
-          <Link href="/">
-        <button className="mr-2 bg-transparent hover:bg-gray-500 text-gray-700 font-semibold hover:text-gray py-2 px-4 border border-gray-500 hover:border-transparent rounded">
-          Back
-        </button>
-        </Link>
       <button onClick={uploadClick} className="ml-2 bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded">
-          CONTINUE
+          Upload Eventlog
         </button>
-        
-
       </div>
     </>
     )
-
 };
-
-
 
 export default Upload;

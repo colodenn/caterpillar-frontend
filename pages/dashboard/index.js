@@ -1,7 +1,5 @@
-import DashboardLayoutFile from '../../components/dashboardLayoutFiles'
-import cookieCutter from 'cookie-cutter'
+import DashboardLayoutFile from '../../components/dashboard/dashboardLayoutFiles'
 import Cookies from 'js-cookie';
-import { getPageFiles } from 'next/dist/next-server/server/get-page-files';
 import React, {useState} from 'react';
 import Link from 'next/link'
 
@@ -27,7 +25,6 @@ export default function  dashboard() {
   const [files, setFiles] = useState([])
 
   const did = Cookies.get('api_token')
-  console.log(did)
   var myHeaders = new Headers();
   myHeaders.append("api_token", did)
   const file = fetch('http://localhost:5000/files', {
@@ -53,7 +50,7 @@ export default function  dashboard() {
       { folders.map(el => {
 
       return (
-        <div className=" cursor-pointer bg-white shadow-md rounded-md p-4 w-48 mr-8">
+        <div key={el.name} className=" cursor-pointer bg-white shadow-md rounded-md p-4 w-48 mr-8">
         <div className="flex justify-between">
             <img src="/folder.svg"  />
             <img src="/3dot.svg" />
@@ -76,7 +73,7 @@ export default function  dashboard() {
 
       return (
         
-        <div className=" cursor-pointer  mb-4 rounded shadow-md rounded-md p-4 bg-white">
+        <div key={el.name} className=" cursor-pointer  mb-4 rounded shadow-md rounded-md p-4 bg-white">
               <div className="flex justify-between">
                 <Link href={"/dashboard/" + el.name} >
                 
@@ -100,7 +97,7 @@ export default function  dashboard() {
           </div>
       )
       })}
-             <div className=" cursor-pointer mb-4 rounded shadow-md rounded-md p-4 bg-white">
+             <div key="default" className=" cursor-pointer mb-4 rounded shadow-md rounded-md p-4 bg-white">
               <div className="flex mx-auto">
                  <img className="mx-auto" src="/add.svg" />
                   </div>
