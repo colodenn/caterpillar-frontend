@@ -13,12 +13,12 @@ export default function Home() {
                 out of your <br/>
                 Eventlogs
               </h1>
-              <p>Quick and easy insights into your Eventlogs</p>
-              <div className="flex">
+              <p className="mt-4">Quick and easy insights into your Eventlogs</p>
+              <div className="flex mt-4">
                 <button className="bg-pink-400 px-4 py-2 rounded text-white">
                   Get started
                 </button>
-                <p>
+                <p className="my-auto ml-4">
                   Only .xes and .csv
                 </p>
               </div>

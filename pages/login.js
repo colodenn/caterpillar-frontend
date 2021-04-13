@@ -1,26 +1,13 @@
 import { useRouter } from 'next/router'
 import { Magic } from 'magic-sdk'
-// const checkAuth = dynamic(() => import('../lib/checkLogin'))
-import useAuth from "../hooks/useAuth";
 import Cookies from 'universal-cookie';
 
 export default function Login() {
-  const { user, loading } = useAuth();
   const cookies = new Cookies();
-
-  // checkAuth('/dashboard/dashboard')
-  
   const router = useRouter()
   
-  if(user){
-    router.push('/dashboard/dashboard')
-  }
-  
-
-
   const handleSubmit = async (event) => {
     event.preventDefault()
-
     const { elements } = event.target
 
     // the Magic code
@@ -29,25 +16,18 @@ export default function Login() {
       .loginWithMagicLink({ email: elements.email.value })
 
     // Once we have the did from magic, login with our own API
-    const authRequest = await fetch('http://localhost:5000/v1/user/login', {
+    await fetch('http://localhost:5000/v1/user/login', {
       method: 'POST',
       headers: { Authorization: `Bearer ${did}` },
-     
     }).then(response => {
       if (response.ok) {
         response.json().then(json => {
-         cookies.set('api_token', json.did_token, { path: '/' });
-      // We successfully logged in, our API
-      // set authorization cookies and now we
-      // can redirect to the dashboard!
-      router.push('/dashboard')
+        // set cookie age to 1 week
+        cookies.set('api_token', json.did_token, { path: '/', maxAge:  604800 });
+        router.push('/dashboard')
         });
       }
     });
-
-    if (authRequest) {
-    
-    } else { /* handle errors */ }
   }
   return (
     <>
@@ -57,7 +37,7 @@ export default function Login() {
       </aside>
       <div className="flex ml-20 p-36 px-48 justify-between">
 
-          <div className="m-auto mr-8 ">
+          <div className="m-auto mr-24 ">
           <form onSubmit={handleSubmit}>
           <h1 className="text-5xl font-bold  ">
                 Sign in to Caterpillar <br></br> Analysis Dashboard
@@ -67,7 +47,7 @@ export default function Login() {
                   <label htmlFor="email" className="absolute top-0 duration-300 origin-0" style={{ 'zIndex': '-1'}}>Email</label>
           </div>
               <br></br>
-              <button type="submit" className="bg-gray-800 px-6 py-2 text-white text-xl mt-8 rounded hover:bg-gray-700">
+              <button type="submit" className="bg-black px-6 py-2 text-white text-xl mt-8 rounded hover:bg-gray-700">
                 Sign in
               </button>
           </form>
@@ -78,19 +58,12 @@ export default function Login() {
       </div>
     </div>
     <style jsx>{`
-   
-        
         .border-b-1 {
             border-bottom: 1px solid #E8E8EF;
-        
         }
-        
         .border-r-1 {
             border-right: 1px solid #E8E8EF;
-        
         }
-         
-      
         `}</style>
     </>
   )
