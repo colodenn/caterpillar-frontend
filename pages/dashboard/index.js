@@ -34,9 +34,6 @@ export default function  dashboard() {
     {"name": "Personal", "description": "24 files"}
   ]
 
-
-    
-
   return (
  <DashboardLayoutFile>
 <>

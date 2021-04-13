@@ -1,8 +1,8 @@
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import React, {useState} from 'react';
 const ResponsiveGridLayout = WidthProvider(Responsive);
-import DashboardLayout from '../../components/dashboardLayout'
-import Piechart from '../../components/piechart'
+import DashboardLayout from '../../components/dashboard/dashboardLayout'
+import Piechart from '../../components/charts/piechart'
 import Cookies from 'js-cookie';
 
 import { useRouter } from 'next/router'
