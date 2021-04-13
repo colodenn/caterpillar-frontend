@@ -13,7 +13,7 @@ const DashboardLayoutFile = (props) => {
                 </div>
                 <div className="flex w-96">
                 <img src="/search.svg" className="absolute ml-2 mt-5"></img>
-        <input type="text" className=" h-10 w-full mt-2  rounded align-middle" style={{ 'text-indent': '28px',     'border': '1px solid #E8E8EF',    'box-shadow': '0px 2px 8px rgb(34 34 87 / 5%)' }} placeholder="Search files"/>
+        <input type="text" className=" h-10 w-full mt-2  rounded align-middle" style={{ 'textIndent': '28px',     'border': '1px solid #E8E8EF',    'boxShadow': '0px 2px 8px rgb(34 34 87 / 5%)' }} placeholder="Search files"/>
                 </div>
                 <div className="flex">
                     <div className="rounded-full w-12 h-12 mr-8">

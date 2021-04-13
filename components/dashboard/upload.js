@@ -22,7 +22,6 @@ let data;
     setSelectedFile(fileUploaded)
    // props.handleFile(fileUploaded);
   };
-  console.log(process.env.BACKEND_URL)
   const uploadClick = event => {
     var formData = new FormData();
     formData.append('file',selectedFile)

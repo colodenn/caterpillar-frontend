@@ -4,20 +4,15 @@ import React, {useState} from 'react';
 import Link from 'next/link'
 
 
-function  handleClick (e) {
+function  deleteFile (e) {
   const did = Cookies.get('api_token')
-  console.log(did)
   var myHeaders = new Headers();
   myHeaders.append("api_token", did)
    fetch(`http://localhost:5000/file/${e}`, {
     method: 'DELETE',
     credentials: 'include',
     headers: myHeaders
-
-  }).then(() => {
-    console.log("test")
   })
-
 }
 
 export default function  dashboard() {
@@ -31,7 +26,8 @@ export default function  dashboard() {
           method: 'GET',
           credentials: 'include',
           headers: myHeaders
-        }).then( res => res.json()).then( res => setFiles(() => res['files']))  
+        }).then( res => res.json()).then( res => 
+            setFiles(() => res['files'])).catch(err => err)
   
   const folders = [
     {"name": "Documents", "description": "24 files"},
@@ -88,7 +84,7 @@ export default function  dashboard() {
                       <div className="flex">
                         <img className="rounded-full w-10  h-10 mr-4" src="/cat.png" />
                         <img className="mr-4" src="/star.svg" />
-                        <button onClick={() => handleClick(el.name)}>
+                        <button onClick={() => deleteFile(el.name)}>
                         <img className="transform rotate-90" src="/3dot.svg" />
 
                         </button>
