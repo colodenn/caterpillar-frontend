@@ -33,6 +33,35 @@ const DashboardLayout = (props) => {
         'data': `{"color":"#C71585","h":2,"w":2,"name":"Mean Throughputtime","types":"number","api": "http://localhost:5000/api/meanThroughputtime/${fileName}"}`
     },
     
+    {
+        'title': 'Period',
+        'description': '2 x 2',
+        'data': `{"color":"#C71585","h":2,"w":2,"name":"Period","types":"number","api": "http://localhost:5000/api/StartEnd/${fileName}"}`
+    },
+
+    {
+        'title': 'Cases',
+        'description': '2 x 2',
+        'data': `{"color":"#C71585","h":2,"w":2,"name":"Cases","types":"number","api": "http://localhost:5000/api/CaseCount/${fileName}"}`
+    },
+
+    {
+        'title': 'Throughputtime Pie Chart',
+        'description': '4 x 3',
+        'data': `{"color":"#C71585","h":3,"w":4,"name":"Throughputtime","types":"piechart","api": "http://localhost:5000/api/Throughputtime/${fileName}"}`
+    },
+
+    {
+        'title': 'Unique Resources Count',
+        'description': '2 x 2',
+        'data': `{"color":"#C71585","h":2,"w":2,"name":"Unique Resources Count","types":"number","api": "http://localhost:5000/api/UniqueResource/${fileName}"}`
+    },
+
+    {
+        'title': 'Resource Pie Chart',
+        'description': '4 x 3',
+        'data': `{"color":"#C71585","h":3,"w":4,"name":"Resource Pie Chart,"types":"piechart","api": "http://localhost:5000/api/ResourceCount/${fileName}"}`
+    },
     ]
 
     const discoveryBlocks = [
