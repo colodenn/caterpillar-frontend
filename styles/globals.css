@@ -13,4 +13,11 @@ a {
 
 * {
   box-sizing: border-box;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  scrollbar-visibility: hidden; 
+}
+
+*::-webkit-scrollbar { 
+  display: none; /* Chrome Safari */
 }

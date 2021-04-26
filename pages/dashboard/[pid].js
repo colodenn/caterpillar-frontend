@@ -60,6 +60,7 @@ const did = Cookies.get('api_token')
   var changeLayout;
 
   const onDrop = async (layout, layoutItem, _event) => {
+    console.log("drop")
     // setLayout([...layoutState].push({i: String(layoutState.length + 1), x:layoutItem.x,y:layoutItem.y,w:layoutItem.w,h:layoutItem.h}))
       // console.log(layoutState)
       
@@ -85,7 +86,6 @@ const did = Cookies.get('api_token')
         xs: [...layout], 
         xxs: [...layout]
     })
-    console.log(data.types)
     
     if(data.types === 'image') {
       layout[layoutState.length].data =  data.api
@@ -101,6 +101,7 @@ const did = Cookies.get('api_token')
             }).then(res => res.json())
 
       layout[layoutState.length].data =  await response.data
+      console.log(await response.data)
     }
       
     
@@ -135,23 +136,26 @@ const did = Cookies.get('api_token')
             method: 'GET',
             credentials: 'include',
             headers: myHeaders
-          }).then( res => res.json()).then( res => setLayout(res['data']))
-          console.log(layoutState)
-          console.log(layoutsState)
+          }).then( res => res.json()).then( res => {
+            setLayout(() => [...res['data']]);
+     
+          })
+
 
   }
 
   const onLayoutChange = (layout, layouts) => {
-     changeLayout = layout
-    
+    console.log(layout); 
+    console.log(layoutState)
 
-    
+    changeLayout = layout
+
+
   }
 
   function deleteT(i){
       var newLayout = layoutState.filter((el) => el.i != i)
       setLayout([...newLayout])
-  
   }
 
   

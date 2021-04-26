@@ -78,7 +78,7 @@ const DashboardLayout = (props) => {
         <nav className=" w-screen py-2 px-8 border-b-1 z-50 bg-white">
             <div className="flex my-auto mt-2 justify-between">
             <div className="">
-                <div className="inline-block mr-4">
+                <div className="inline-block mr-4 cursor-pointer">
                     <Link href="/dashboard">
                 <img className="hover:cursor-pointer my-auto bg-gray-100 rounded-full mt-0 p-3 " style={{ "width": "40px", "height": "40px"}} src="/arrow.svg" />
                     
