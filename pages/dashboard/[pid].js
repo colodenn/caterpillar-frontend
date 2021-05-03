@@ -52,52 +52,23 @@ function tiles(exp,el) {
     return html
 }
 
- 
-  console.log(layoutState)
-  console.log({...layoutsState})
 
+console.log(layoutState)
+console.log(layoutsState)
 
-
-  var changeLayout;
 
   const onDrop = async (layout, layoutItem, _event) => {
-
-
-    layout1.push({i: String(layout1.length +1), x:layoutItem.x,y:layoutItem.y,w:layoutItem.w,h:layoutItem.h})
-    setLayout(() => [...layout1])
+    var data = JSON.parse(_event.dataTransfer.getData('text/plain'))
+    console.log(data)
+    
+    setLayout(layoutState.concat( [{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'', type: data.types}]))
     setLayouts({
-        lg: [...layout1],
-        md: [...layout1], 
-        sm: [...layout1],
-        xs: [...layout1], 
-        xxs: [...layout1]
-    })
-    console.log("drop")
-    setLayout([...layoutState].push({i: String(layoutState.length + 1), x:layoutItem.x,y:layoutItem.y,w:layoutItem.w,h:layoutItem.h}))
-      console.log(layoutState)
-      
-      setLayout(() => layout.concat({i: String(layoutState.length + 1), x:layoutItem.x,y:layoutItem.y,w:layoutItem.w,h:layoutItem.h}))
-      console.log(layout.concat({i: String(layoutState.length + 1), x:layoutItem.x,y:layoutItem.y,w:layoutItem.w,h:layoutItem.h}))
-      var data = JSON.parse(_event.dataTransfer.getData('text/plain'))
-      
-      layout.splice(0,layoutState.length,...layoutState) 
-      console.log(changeLayout.length)
-      console.log(changeLayout)
-      layout[layoutState.length-1].x = changeLayout[layoutState.length-1].x
-      layout[layoutState.length-1].y = changeLayout[layoutState.length-1].y
-      layout[layoutState.length-1].w = changeLayout[layoutState.length-1].w
-      layout[layoutState.length-1].h = changeLayout[layoutState.length-1].h
-      layout.pop()
-
-      layout[layoutState.length] =  {i: String(layoutState.length + 1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}
-      setLayout([...layout])
-      setLayouts({
-        lg: [...layout],
-        md: [...layout], 
-        sm: [...layout],
-        xs: [...layout], 
-        xxs: [...layout]
-    })
+      lg: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}]),
+      md: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}]), 
+      sm: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}]),
+      xs: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}]), 
+      xxs: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}])
+  })
     
     if(data.types === 'image') {
       layout[layoutState.length].data =  data.api
@@ -112,32 +83,32 @@ function tiles(exp,el) {
               headers: myHeaders,
             }).then(res => res.json())
 
-      layout[layoutState.length].data =  await response.data
-      console.log(await response.data)
+      
+      setLayout(layoutState.concat( [{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}]))
+
+      setLayouts({
+        lg: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}]),
+        md: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}]), 
+        sm: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}]),
+        xs: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}]), 
+        xxs: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}])
+    })
+  
     }
       
     
-      setLayout([...layout])
-      setLayouts({
-          lg: [...layout],
-          md: [...layout], 
-          sm: [...layout],
-          xs: [...layout], 
-          xxs: [...layout]
-      })
-      console.log(layoutState)
-      console.log(layoutsState)
-      var myHeaders = new Headers();
-      myHeaders.append("api_token", did)
-      myHeaders.append('Content-Type','application/json')
-      // send layoutState and layoutsState and Store on mongodb
-      const file = fetch(`http://localhost:5000/tiles/add/${pid}`, {
-        method: 'POST',
-        credentials: 'include',
+
+      // var myHeaders = new Headers();
+      // myHeaders.append("api_token", did)
+      // myHeaders.append('Content-Type','application/json')
+      // // send layoutState and layoutsState and Store on mongodb
+      // const file = fetch(`http://localhost:5000/tiles/add/${pid}`, {
+      //   method: 'POST',
+      //   credentials: 'include',
         
-        headers: myHeaders,
-        body: JSON.stringify({"data":layout})
-      }).then(res => console.log(res))  
+      //   headers: myHeaders,
+      //   body: JSON.stringify({"data":layout})
+      // }).then(res => console.log(res))  
 
   }
     
