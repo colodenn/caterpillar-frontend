@@ -9,63 +9,75 @@ import { useRouter } from 'next/router'
 
 import { resetIdCounter } from 'react-tabs';
 
-export default function  dashboardSlug() {
-  const router = useRouter()
-  const { pid } = router.query
-resetIdCounter();
-
-function tiles(exp,el) {
-  var html = <h1>test</h1>
-  switch (exp) {
-    case 'image':
-      html = <img  src={el.data} />
-      break;
-    
-    case 'number':
-    
-      html = ( <p className="text-center font-bold text-3xl align-middle py-4">
-      {el.data}
-        </p>)
-      break;
-
-    case 'piechart':
-
-      html = (
-        <Piechart dat={el.data} />
-      )
-      break;
-    
-    default:
-      html = <textarea  defaultValue="write something here..."/>
-
-      break;
-  }
-  return html
-
-}
-
-
-const did = Cookies.get('api_token')
-
-
-  const layout1 = [
-    {i: '1', x: 0, y: 0, w: 3, h: 3,static: true,name: "Notes", data: {data: []}},
-
-  ];
+var layout1 = [
+  {i: '1', x: 0, y: 0, w: 3, h: 3,static: true,name: "Notes", data: {data: []}},
+];
   var layoutst = {
     lg: layout1, md: layout1, sm: layout1, xs: layout1, xxs: layout1
   }
+
+export default function  dashboardSlug() {
   const [layoutState, setLayout] = useState(layout1)
   const [layoutsState, setLayouts] = useState(layoutst)
+  const router = useRouter()
+  const { pid } = router.query
+  resetIdCounter();
+  const did = Cookies.get('api_token')
+function tiles(exp,el) {
+    var html = <h1>test</h1>
+    switch (exp) {
+      case 'image':
+        html = <img  src={el.data} />
+        break;
+      
+      case 'number':
+      
+        html = ( <p className="text-center font-bold text-3xl align-middle py-4">
+        {el.data}
+          </p>)
+        break;
+
+      case 'piechart':
+
+        html = (
+          <Piechart dat={el.data} />
+        )
+        break;
+      
+      default:
+        html = <textarea  defaultValue="write something here..."/>
+
+        break;
+    }
+    return html
+}
+
+ 
+  console.log(layoutState)
+  console.log({...layoutsState})
+
+
+
   var changeLayout;
 
   const onDrop = async (layout, layoutItem, _event) => {
+
+
+    layout1.push({i: String(layout1.length +1), x:layoutItem.x,y:layoutItem.y,w:layoutItem.w,h:layoutItem.h})
+    setLayout(() => [...layout1])
+    setLayouts({
+        lg: [...layout1],
+        md: [...layout1], 
+        sm: [...layout1],
+        xs: [...layout1], 
+        xxs: [...layout1]
+    })
     console.log("drop")
-    // setLayout([...layoutState].push({i: String(layoutState.length + 1), x:layoutItem.x,y:layoutItem.y,w:layoutItem.w,h:layoutItem.h}))
-      // console.log(layoutState)
+    setLayout([...layoutState].push({i: String(layoutState.length + 1), x:layoutItem.x,y:layoutItem.y,w:layoutItem.w,h:layoutItem.h}))
+      console.log(layoutState)
       
-      // setLayout(() => layout.concat({i: String(layoutState.length + 1), x:layoutItem.x,y:layoutItem.y,w:layoutItem.w,h:layoutItem.h}))
-      // console.log(layout.concat({i: String(layoutState.length + 1), x:layoutItem.x,y:layoutItem.y,w:layoutItem.w,h:layoutItem.h}))
+      setLayout(() => layout.concat({i: String(layoutState.length + 1), x:layoutItem.x,y:layoutItem.y,w:layoutItem.w,h:layoutItem.h}))
+      console.log(layout.concat({i: String(layoutState.length + 1), x:layoutItem.x,y:layoutItem.y,w:layoutItem.w,h:layoutItem.h}))
       var data = JSON.parse(_event.dataTransfer.getData('text/plain'))
       
       layout.splice(0,layoutState.length,...layoutState) 
@@ -145,10 +157,10 @@ const did = Cookies.get('api_token')
   }
 
   const onLayoutChange = (layout, layouts) => {
-    console.log(layout); 
-    console.log(layoutState)
+    // console.log(layout); 
+    // console.log(layouts)
 
-    changeLayout = layout
+    // changeLayout = layout
 
 
   }
