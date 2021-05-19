@@ -15,6 +15,7 @@ var layout1 = [
     lg: layout1, md: layout1, sm: layout1, xs: layout1, xxs: layout1
   }
 
+let layouttemp = []
 export default function  dashboardSlug() {
   const [layoutState, setLayout] = useState(layout1)
   const [layoutsState, setLayouts] = useState(layoutst)
@@ -90,6 +91,8 @@ function tiles(exp,el) {
   //     xxs: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}])
   // })
     
+
+
     if(data.types === 'image') {
       layout[layoutState.length].data =  data.api
 
@@ -103,15 +106,29 @@ function tiles(exp,el) {
               headers: myHeaders,
             }).then(res => res.json())
 
-      
-      setLayout(layoutState.concat( [{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}]))
+      let newlayout = []
+      layoutState.map(e => {
+      let temp = layouttemp.find(x => x.i == e.i)
+     console.log(temp)
+      let temp2 = e
+      temp2.w = temp.w
+      temp2.h = temp.h
+      temp2.x = temp.x
+      temp2.y = temp.y
+
+      newlayout = newlayout.concat(temp2)
+
+    })
+    console.log(newlayout)
+    console.log(layouttemp)
+      setLayout(newlayout.concat( [{i: String(newlayout.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}]))
 
       setLayouts({
-        lg: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}]),
-        md: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}]), 
-        sm: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}]),
-        xs: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}]), 
-        xxs: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}])
+        lg: newlayout.concat([{i: String(newlayout.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}]),
+        md: newlayout.concat([{i: String(newlayout.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}]), 
+        sm: newlayout.concat([{i: String(newlayout.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}]),
+        xs: newlayout.concat([{i: String(newlayout.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}]), 
+        xxs: newlayout.concat([{i: String(newlayout.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}])
     })
 
     var myHeaders = new Headers();
@@ -135,37 +152,66 @@ function tiles(exp,el) {
 
   }
 
-  const onLayoutChange = (layout, layouts) => {
+  const onLayoutChange = async (layout, layouts) => {
     // let newlayout = []
     // layoutState.map(e => {
     //   let temp = layout.find(x => x.i == e.i)
-    //   console.log(temp)
     //   let temp2 = e
     //   temp2.w = temp.w
     //   temp2.h = temp.h
     //   temp2.x = temp.x
     //   temp2.y = temp.y
 
-    //   newlayout.concat(temp2)
+    //   newlayout = newlayout.concat(temp2)
 
     // })
     // console.log(newlayout)
-    // setLayout(newlayout)
-    // setLayouts({
-    //   lg: newlayout,
-    //   md: newlayout,
-    //   sm: newlayout,
-    //   xs: newlayout,
-    //   xxs: newlayout
-    // })
+
+    let temp = [...layoutState]
+    temp.map(e => {
+      let foo = layout.find(x => x.i == e.i)
+      let poo = e
+      console.log(e)
+      // poo.w = foo.w
+      // poo.h = foo.h
+      // poo.x = foo.x
+      // poo.y = foo.y
+    })
+    // var myHeaders = new Headers();
+    //   myHeaders.append("api_token", did)
+    //   myHeaders.append('Content-Type','application/json')
+    //   // send layoutState and layoutsState and Store on mongodb
+    //   const file = fetch(`http://localhost:5000/tiles/add/${pid}`, {
+    //     method: 'POST',
+    //     credentials: 'include',
+        
+    //     headers: myHeaders,
+    //     body: JSON.stringify({"data":newlayout})
+    //   }).then(res => res.json())  
+    //   .then(res => console.log(res))
+    
+    layouttemp = layout;
 
      
 
   }
 
-  function deleteT(i)  {
+ async function  deleteT(i)  {
       var newLayout = layoutState.filter((el) => el.i != i)
       setLayout([...newLayout])
+      var myHeaders = new Headers();
+      myHeaders.append("api_token", did)
+      myHeaders.append('Content-Type','application/json')
+      // send layoutState and layoutsState and Store on mongodb
+      const file = fetch(`http://localhost:5000/tiles/add/${pid}`, {
+        method: 'POST',
+        credentials: 'include',
+        
+        headers: myHeaders,
+        body: JSON.stringify({"data":newLayout})
+      }).then(res => res.json())  
+      .then(res => console.log(res))
+
   }
   
   function openSidebar(index) {

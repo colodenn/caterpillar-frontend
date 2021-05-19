@@ -234,7 +234,7 @@ const DashboardLayout = (props) => {
         <div className='flex-1   mx-auto p-4'>{props.children}</div>
     </main>
     <aside id="properties" className="mt-0 right-0 fixed bg-white w-96 border-r-1 h-screen hidden">
-        <div className="px-8 py-2 "> 
+        <div className="px-8 py-2 h-full"> 
 
     <div className="flex justify-between">
         <div>
@@ -247,9 +247,9 @@ const DashboardLayout = (props) => {
             </button>
         </div>
     </div>
-    <div className="mx-auto flex">
+    <div className="mx-auto flex align-bottom ">
         
-        <button onClick={(e) => deleteButton(e.target.value) } id="closeButton" value="test" className="mx-auto border rounded py-4 px-8 text-xl hover:bg-gray-100 font-semibold" >
+        <button onClick={(e) => deleteButton(e.target.value) } id="closeButton" value="test" className="mx-auto w-full border rounded py-3 px-8 text-xl hover:bg-gray-100 " >
             Delete Block
         </button>
     </div>
