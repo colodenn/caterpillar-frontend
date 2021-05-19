@@ -79,6 +79,10 @@ const DashboardLayout = (props) => {
         props.delete(i)
     }
 
+    function deleteAll() {
+        props.deleteAll()
+    }
+
     function closeSidebar() {
         if (typeof window !== "undefined") {
 
@@ -114,7 +118,7 @@ const DashboardLayout = (props) => {
                     <p className="m-auto font-medium ">{  fileName }</p>
                 </div>
                 <div>
-                <button className="border  rounded px-2 py-2 text-gray-400  text-sm hover:text-gray-300 hover:border-gray-100 font-medium ">Discard</button>
+                <button onClick={() => deleteAll()} className="border  rounded px-2 py-2 text-gray-400  text-sm hover:text-gray-300 hover:border-gray-100 font-medium ">Discard</button>
                     <span className="mr-2 ml-2"></span>
                     <button className="bg-blue-500 hover:bg-blue-400 rounded px-4 py-2 text-sm text-white font-medium ">Publish & export</button>
                 </div>

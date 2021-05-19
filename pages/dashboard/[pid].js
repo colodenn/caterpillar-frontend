@@ -195,6 +195,21 @@ function tiles(exp,el) {
      
 
   }
+  async function deleteAll() {
+    setLayout([])
+    var myHeaders = new Headers();
+      myHeaders.append("api_token", did)
+      myHeaders.append('Content-Type','application/json')
+      // send layoutState and layoutsState and Store on mongodb
+      const file = fetch(`http://localhost:5000/tiles/add/${pid}`, {
+        method: 'POST',
+        credentials: 'include',
+        
+        headers: myHeaders,
+        body: JSON.stringify({"data":[]})
+      }).then(res => res.json())  
+      .then(res => console.log(res))
+  }
 
  async function  deleteT(i)  {
       var newLayout = layoutState.filter((el) => el.i != i)
@@ -229,7 +244,7 @@ function tiles(exp,el) {
   return (
     <>
 
-    <DashboardLayout delete={(value) => deleteT(value)}>
+    <DashboardLayout deleteAll={() => deleteAll()} delete={(value) => deleteT(value)}>
 
     <ResponsiveGridLayout className="layout" layouts={layoutsState}
       onLayoutChange={(layout, layouts) => {
