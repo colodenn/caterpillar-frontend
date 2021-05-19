@@ -2,10 +2,12 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Link from 'next/link'
 import 'react-tabs/style/react-tabs.css';
 import { useRouter } from 'next/router'
+import { useState } from 'react';
 
 const DashboardLayout = (props) => {
     const router = useRouter()
     const fileName = router.query.pid
+    const [searchTerm, setSearchTerm] = useState("");
     const statisticBlocks = [
     {
         'title': 'Notes',
@@ -20,12 +22,12 @@ const DashboardLayout = (props) => {
     {
         'title': 'Unique Activites Count',
         'description': '1 x 1',
-        'data': `{"color":"#C71585","h":1,"w":1,"name":"Event count","types":"number","api":"http://localhost:5000/api/uniqueActivitiesCount/${fileName}"}`
+        'data': `{"color":"#C71585","h":1,"w":1,"name":"Unique Activites Count","types":"number","api":"http://localhost:5000/api/uniqueActivitiesCount/${fileName}"}`
     },
     {
         'title': 'Aktivity Pie Chart',
         'description': '4 x 3',
-        'data': `{"color":"#C71585","h":3,"w":4,"name":"Event count","types":"piechart","api": "http://localhost:5000/api/activitesArray/${fileName}"}`
+        'data': `{"color":"#C71585","h":3,"w":4,"name":"Aktivity Pie Chart","types":"piechart","api": "http://localhost:5000/api/activitesArray/${fileName}"}`
     },
     {
         'title': 'Mean Throughputtime',
@@ -60,7 +62,7 @@ const DashboardLayout = (props) => {
     {
         'title': 'Resource Pie Chart',
         'description': '4 x 3',
-        'data': `{"color":"#C71585","h":3,"w":4,"name":"Resource Pie Chart,"types":"piechart","api": "http://localhost:5000/api/ResourceCount/${fileName}"}`
+        'data': `{"color":"#C71585","h":3,"w":4,"name":"Resource Pie Chart" ,"types":"piechart","api": "http://localhost:5000/api/ResourceCount/${fileName}"}`
     },
     ]
 
@@ -84,6 +86,12 @@ const DashboardLayout = (props) => {
             properties.style.display = 'none';
           }
     }
+
+    const handleChange = event => {
+        setSearchTerm(event.target.value)
+    }
+
+    // console.log(JSON.parse(statisticBlocks[0].data).name.toLowerCase().includes(searchTerm))
 
     return (
         <>
@@ -119,7 +127,7 @@ const DashboardLayout = (props) => {
             <div className="px-4 py-2">
         <h2 className="font-medium text-2xl mb-4 mt-2">Blocks</h2>
         <img src="/search.svg" className="absolute ml-2 mt-5"></img>
-        <input type="text" className=" h-10 w-full mt-2  rounded align-middle" style={{ 'textIndent': '28px',     'border': '1px solid #E8E8EF',    'boxShadow': '0px 2px 8px rgb(34 34 87 / 5%)' }} placeholder="Search blocks"/>
+        <input onChange={handleChange}  value={searchTerm} type="text" className=" h-10 w-full mt-2  rounded align-middle" style={{ 'textIndent': '28px',     'border': '1px solid #E8E8EF',    'boxShadow': '0px 2px 8px rgb(34 34 87 / 5%)' }} placeholder="Search blocks"/>
             </div>
         </div>
 </div>
@@ -135,7 +143,8 @@ const DashboardLayout = (props) => {
 <div className="py-2 px-3">
 {
     statisticBlocks.map(el => {
-        return (
+     
+        return JSON.parse(el.data).name.toLowerCase().includes(searchTerm) ? (
         <div key={el.title}  className="hover:shadow rounded p-5 flex cursor-pointer droppable-element "
         draggable={true}
         unselectable="on"
@@ -157,7 +166,7 @@ const DashboardLayout = (props) => {
 </p>
 </div>
 </div>
-        )
+        ) : <></>
     })
 
 }
@@ -199,7 +208,7 @@ const DashboardLayout = (props) => {
      <TabPanel>
      {
     discoveryBlocks.map(el => {
-        return (
+        return  (
         <div  key={el.title} className="hover:shadow rounded p-5 flex cursor-pointer droppable-element "
         draggable={true}
         unselectable="on"
