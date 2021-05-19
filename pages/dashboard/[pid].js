@@ -23,6 +23,7 @@ export default function  dashboardSlug() {
   const { pid } = router.query
   resetIdCounter();
   const did = Cookies.get('api_token')
+
 function tiles(exp,el) {
     var html = <h1>test</h1>
     switch (exp) {
@@ -53,22 +54,20 @@ function tiles(exp,el) {
 }
 
 
-console.log(layoutState)
-console.log(layoutsState)
 
 
   const onDrop = async (layout, layoutItem, _event) => {
     var data = JSON.parse(_event.dataTransfer.getData('text/plain'))
     console.log(data)
     
-    setLayout(layoutState.concat( [{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'', type: data.types}]))
-    setLayouts({
-      lg: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}]),
-      md: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}]), 
-      sm: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}]),
-      xs: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}]), 
-      xxs: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}])
-  })
+  //   setLayout(layoutState.concat( [{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'', type: data.types}]))
+  //   setLayouts({
+  //     lg: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}]),
+  //     md: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}]), 
+  //     sm: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}]),
+  //     xs: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}]), 
+  //     xxs: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}])
+  // })
     
     if(data.types === 'image') {
       layout[layoutState.length].data =  data.api
@@ -107,7 +106,7 @@ console.log(layoutsState)
       //   credentials: 'include',
         
       //   headers: myHeaders,
-      //   body: JSON.stringify({"data":layout})
+      //   body: JSON.stringify({"data":layoutState})
       // }).then(res => console.log(res))  
 
   }
@@ -127,26 +126,31 @@ console.log(layoutsState)
 
   }
 
-  const onLayoutChange = (layout, layouts) => {
-    // console.log(layout); 
-    // console.log(layouts)
+  const onLayoutChange = (layout, layouts) => {}
 
-    // changeLayout = layout
-
-
-  }
-
-  function deleteT(i){
+  function deleteT(i)  {
+      console.log(i)
       var newLayout = layoutState.filter((el) => el.i != i)
       setLayout([...newLayout])
   }
+  
+  function openSidebar(index) {
+    console.log("sodebar")
+    if (typeof window !== "undefined") {
 
+      const properties = document.getElementById('properties')
+      properties.style.display = 'block';
+      properties.value = index
+      const closeButton = document.getElementById('closeButton')
+      closeButton.value = index
+    }
+  }
+ 
   
   return (
     <>
 
-    <DashboardLayout>
-
+    <DashboardLayout delete={(value) => deleteT(value)}>
 
     <ResponsiveGridLayout className="layout" layouts={layoutsState}
       onLayoutChange={(layout, layouts) => {
@@ -163,42 +167,25 @@ console.log(layoutsState)
              return (
                 <div className="bg-white shadow-md rounded-md"  key={el.i}>
                   <div   className="border-b-1 p-4 rounded-t flex justify-between">
-                   
                    <div className="flex">
-
                     <img src="/eye.svg"/>
                     <p className="ml-2">
                     {el.name}
                       </p>
-
-
                    </div>
-
                    <div className="my-auto">
-                     <button onClick={() => deleteT(el.i)} className="bg-red-400 w-12 rounded-full text-white">
-                        D
-                     </button>
-                     <button className="bg-green-400 w-12 rounded-full text-white" onClick={click}>
-                       click 
-                     </button>
+                  <button onClick={ () => openSidebar(el.i)}>
+                 <img className="" src="/3dot.svg"/>
+                 </button>
                    </div>
                   </div>
                  <>
                   { tiles(el.type,el) }
                  </>
-                    
-
-                  
-                  
-                
                   </div>
-                  
                   )
                 }) 
-                
               }
-        
-         
               <style jsx>{`
         
 .border-b-1 {
@@ -222,6 +209,7 @@ console.log(layoutsState)
           
         
       </ResponsiveGridLayout>
+  
     </DashboardLayout>
 
     </>

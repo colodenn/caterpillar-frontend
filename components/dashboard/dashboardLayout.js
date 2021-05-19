@@ -36,7 +36,7 @@ const DashboardLayout = (props) => {
     {
         'title': 'Period',
         'description': '2 x 2',
-        'data': `{"color":"#C71585","h":2,"w":2,"name":"Period","types":"number","api": "http://localhost:5000/api/StartEnd/${fileName}"}`
+        'data': `{"color":"#C71585","h":2,"w":2,"name":"Period","types":"timestamp","api": "http://localhost:5000/api/StartEnd/${fileName}"}`
     },
 
     {
@@ -71,6 +71,19 @@ const DashboardLayout = (props) => {
             'data': `{"color":"#C71585","h":2,"w":7,"name":"Petrinet","api": "http://localhost:5000/uploads/petrinet/${fileName}","types":"image"}`
         },
     ]
+
+    function deleteButton(i) {
+        closeSidebar()
+        props.delete(i)
+    }
+
+    function closeSidebar() {
+        if (typeof window !== "undefined") {
+
+            const properties = document.getElementById('properties')
+            properties.style.display = 'none';
+          }
+    }
 
     return (
         <>
@@ -220,6 +233,28 @@ const DashboardLayout = (props) => {
     <main className="flex-1 flex disableScroll backgroundTile overflow-y-scroll h-screen  ml-96 mt-0">
         <div className='flex-1   mx-auto p-4'>{props.children}</div>
     </main>
+    <aside id="properties" className="mt-0 right-0 fixed bg-white w-96 border-r-1 h-screen hidden">
+        <div className="px-8 py-2 "> 
+
+    <div className="flex justify-between">
+        <div>
+        <h1 className="font-medium text-2xl mb-4 mt-2">Properties</h1>
+
+        </div>
+        <div className="my-auto">
+            <button onClick={() => closeSidebar()}>
+                <img className="transform " src="/close.svg"/>
+            </button>
+        </div>
+    </div>
+    <div className="mx-auto flex">
+        
+        <button onClick={(e) => deleteButton(e.target.value) } id="closeButton" value="test" className="mx-auto border rounded py-4 px-8 text-xl hover:bg-gray-100 font-semibold" >
+            Delete Block
+        </button>
+    </div>
+        </div>
+    </aside>
         </div>
     </div>
     <style jsx>{`
