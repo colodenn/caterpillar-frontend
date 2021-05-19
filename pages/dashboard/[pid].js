@@ -1,5 +1,5 @@
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 const ResponsiveGridLayout = WidthProvider(Responsive);
 import DashboardLayout from '../../components/dashboard/dashboardLayout'
 import Piechart from '../../components/charts/piechart'
@@ -10,7 +10,6 @@ import { useRouter } from 'next/router'
 import { resetIdCounter } from 'react-tabs';
 
 var layout1 = [
-  {i: '1', x: 0, y: 0, w: 3, h: 3,static: true,name: "Notes", data: {data: []}},
 ];
   var layoutst = {
     lg: layout1, md: layout1, sm: layout1, xs: layout1, xxs: layout1
@@ -23,6 +22,29 @@ export default function  dashboardSlug() {
   const { pid } = router.query
   resetIdCounter();
   const did = Cookies.get('api_token')
+  useEffect(() => {
+    var myHeaders = new Headers();
+    myHeaders.append("api_token", did)
+    if (typeof pid !== "undefined") {
+      const file = fetch(`http://localhost:5000/tiles/${pid}`, {
+              method: 'GET',
+              credentials: 'include',
+              headers: myHeaders
+            }).then( res => res.json()).then( res => {
+              setLayout(() => res['data']);
+              setLayouts({
+                lg: res['data'],
+                md: res['data'],
+                sm: res['data'],
+                xs: res['data'],
+                xxs: res['data']
+              })
+              console.log("received tiles")
+            })
+
+    }
+    
+  },[pid])
 
 function tiles(exp,el) {
     var html = <h1>test</h1>
@@ -58,7 +80,6 @@ function tiles(exp,el) {
 
   const onDrop = async (layout, layoutItem, _event) => {
     var data = JSON.parse(_event.dataTransfer.getData('text/plain'))
-    console.log(data)
     
   //   setLayout(layoutState.concat( [{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'', type: data.types}]))
   //   setLayouts({
@@ -92,50 +113,62 @@ function tiles(exp,el) {
         xs: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}]), 
         xxs: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}])
     })
+
+    var myHeaders = new Headers();
+          myHeaders.append("api_token", did)
+          myHeaders.append('Content-Type','application/json')
+          // send layoutState and layoutsState and Store on mongodb
+          const file = fetch(`http://localhost:5000/tiles/add/${pid}`, {
+            method: 'POST',
+            credentials: 'include',
+            
+            headers: myHeaders,
+            body: JSON.stringify({"data":layoutState.concat( [{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}])})
+          }).then(res => res.json())  
+          .then(res => console.log(res))
   
     }
       
     
 
-      // var myHeaders = new Headers();
-      // myHeaders.append("api_token", did)
-      // myHeaders.append('Content-Type','application/json')
-      // // send layoutState and layoutsState and Store on mongodb
-      // const file = fetch(`http://localhost:5000/tiles/add/${pid}`, {
-      //   method: 'POST',
-      //   credentials: 'include',
-        
-      //   headers: myHeaders,
-      //   body: JSON.stringify({"data":layoutState})
-      // }).then(res => console.log(res))  
-
-  }
-    
-  function click() {
-    var myHeaders = new Headers();
-    myHeaders.append("api_token", did)
-    const file = fetch(`http://localhost:5000/tiles/${pid}`, {
-            method: 'GET',
-            credentials: 'include',
-            headers: myHeaders
-          }).then( res => res.json()).then( res => {
-            setLayout(() => [...res['data']]);
      
-          })
-
 
   }
 
-  const onLayoutChange = (layout, layouts) => {}
+  const onLayoutChange = (layout, layouts) => {
+    // let newlayout = []
+    // layoutState.map(e => {
+    //   let temp = layout.find(x => x.i == e.i)
+    //   console.log(temp)
+    //   let temp2 = e
+    //   temp2.w = temp.w
+    //   temp2.h = temp.h
+    //   temp2.x = temp.x
+    //   temp2.y = temp.y
+
+    //   newlayout.concat(temp2)
+
+    // })
+    // console.log(newlayout)
+    // setLayout(newlayout)
+    // setLayouts({
+    //   lg: newlayout,
+    //   md: newlayout,
+    //   sm: newlayout,
+    //   xs: newlayout,
+    //   xxs: newlayout
+    // })
+
+     
+
+  }
 
   function deleteT(i)  {
-      console.log(i)
       var newLayout = layoutState.filter((el) => el.i != i)
       setLayout([...newLayout])
   }
   
   function openSidebar(index) {
-    console.log("sodebar")
     if (typeof window !== "undefined") {
 
       const properties = document.getElementById('properties')
