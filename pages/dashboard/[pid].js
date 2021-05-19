@@ -62,7 +62,7 @@ function tiles(exp,el) {
         break;
 
       case 'piechart':
-
+        console.log(el.data)
         html = (
           <Piechart dat={el.data} />
         )
