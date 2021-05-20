@@ -2,8 +2,15 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Link from 'next/link'
 import 'react-tabs/style/react-tabs.css';
 import { useRouter } from 'next/router'
-import { useState } from 'react';
 
+import React, { useState } from 'react';
+import Pdf from "react-to-pdf";
+const options = {
+    orientation: 'landscape',
+    unit: 'in',
+    format: [40,20]
+};
+const ref = React.createRef();
 const DashboardLayout = (props) => {
     const router = useRouter()
     const fileName = router.query.pid
@@ -72,6 +79,11 @@ const DashboardLayout = (props) => {
             'description': '5 x 4',
             'data': `{"color":"#C71585","h":2,"w":7,"name":"Petrinet","api": "http://localhost:5000/uploads/petrinet/${fileName}","types":"image"}`
         },
+        {
+            'title': 'Table',
+            'description': '8 x 4',
+            'data': `{"color":"#C71585","h":4,"w":8,"name":"Table","api": "http://localhost:5000/api/getTable/${fileName}","types":"table"}`
+        },
     ]
 
     function deleteButton(i) {
@@ -95,6 +107,12 @@ const DashboardLayout = (props) => {
         setSearchTerm(event.target.value)
     }
 
+    function getGrid() {
+        if (typeof window !== "undefined") {
+
+            return document.getElementById('grid')
+          }
+    }
     // console.log(JSON.parse(statisticBlocks[0].data).name.toLowerCase().includes(searchTerm))
 
     return (
@@ -120,11 +138,14 @@ const DashboardLayout = (props) => {
                 <div>
                 <button onClick={() => deleteAll()} className="border  rounded px-2 py-2 text-gray-400  text-sm hover:text-gray-300 hover:border-gray-100 font-medium ">Discard</button>
                     <span className="mr-2 ml-2"></span>
-                    <button className="bg-blue-500 hover:bg-blue-400 rounded px-4 py-2 text-sm text-white font-medium ">Publish & export</button>
+                    <Pdf targetRef={ref} options={options} scale={1} filename="code-example.pdf">
+
+                    {({ toPdf }) =>  <button  onClick={toPdf} className="bg-blue-500 hover:bg-blue-400 rounded px-4 py-2 text-sm text-white font-medium ">Publish & export</button>}
+                    </Pdf>
                 </div>
             </div>
         </nav>
-        <div className="flex disableScroll">
+        <div  className="flex disableScroll">
         <aside className="mt-0 fixed bg-white w-96 border-r-1 h-screen">
         <div className="">
         <div className="block">
@@ -244,7 +265,7 @@ const DashboardLayout = (props) => {
        
         </aside>
     <main className="flex-1 flex disableScroll backgroundTile overflow-y-scroll h-screen  ml-96 mt-0">
-        <div className='flex-1   mx-auto p-4'>{props.children}</div>
+        <div ref={ref} className='flex-1   mx-auto p-4'>{props.children}</div>
     </main>
     <aside id="properties" className="mt-0 right-0 fixed bg-white w-96 border-r-1 h-screen hidden">
         <div className="px-8 py-2 h-full"> 

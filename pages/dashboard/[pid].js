@@ -8,7 +8,7 @@ import Cookies from 'js-cookie';
 import { useRouter } from 'next/router'
 
 import { resetIdCounter } from 'react-tabs';
-
+const ref = React.createRef();
 var layout1 = [
 ];
   var layoutst = {
@@ -51,6 +51,7 @@ function tiles(exp,el) {
     var html = <h1>test</h1>
     switch (exp) {
       case 'image':
+        {console.log(el)}
         html = <img  src={el.data} />
         break;
       
@@ -68,6 +69,63 @@ function tiles(exp,el) {
         )
         break;
       
+      case 'table':
+        console.log(el.data)
+        html = (
+          <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              {
+                Object.keys(el.data[0]).map(e => {
+                  return (<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                  {e}
+                                </th>)
+                })
+              }
+              
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            
+       {
+          el.data.map(e => {
+return (
+            <tr>
+            
+              
+
+                  <td class="px-6 py-4 whitespace-nowrap">
+                   <div class="text-sm text-gray-900">{e.caseid}</div>
+                 </td>
+                 <td class="px-6 py-4 whitespace-nowrap">
+                   <div class="text-sm text-gray-900">{e["concept:name"]}</div>
+                 </td>
+                 <td class="px-6 py-4 whitespace-nowrap">
+                   <div class="text-sm text-gray-900">{e.id}</div>
+                 </td>
+                 <td class="px-6 py-4 whitespace-nowrap">
+                   <div class="text-sm text-gray-900">{e['org:resource']}</div>
+                 </td>
+                 <td class="px-6 py-4 whitespace-nowrap">
+                   <div class="text-sm text-gray-900">{e['org:role']}</div>
+                 </td>
+                 <td class="px-6 py-4 whitespace-nowrap">
+                   <div class="text-sm text-gray-900">{e['time:timestamp']}</div>
+                 </td>
+                 
+              
+              
+            </tr>
+            )
+          })
+       }
+            
+          
+        
+          </tbody>
+        </table>
+         )
+          break;
       default:
         html = <textarea  defaultValue="write something here..."/>
 
@@ -81,20 +139,11 @@ function tiles(exp,el) {
 
   const onDrop = async (layout, layoutItem, _event) => {
     var data = JSON.parse(_event.dataTransfer.getData('text/plain'))
-    
-  //   setLayout(layoutState.concat( [{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'', type: data.types}]))
-  //   setLayouts({
-  //     lg: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}]),
-  //     md: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}]), 
-  //     sm: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}]),
-  //     xs: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}]), 
-  //     xxs: layoutState.concat([{i: String(layoutState.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:'',type: data.types}])
-  // })
-    
 
 
     if(data.types === 'image') {
-      layout[layoutState.length].data =  data.api
+      var response = {'data': data.api};
+      
 
     } else {
       const did = Cookies.get('api_token')
@@ -105,11 +154,11 @@ function tiles(exp,el) {
               credentials: 'include',
               headers: myHeaders,
             }).then(res => res.json())
-
+            
+          }
       let newlayout = []
       layoutState.map(e => {
       let temp = layouttemp.find(x => x.i == e.i)
-     console.log(temp)
       let temp2 = e
       temp2.w = temp.w
       temp2.h = temp.h
@@ -119,8 +168,6 @@ function tiles(exp,el) {
       newlayout = newlayout.concat(temp2)
 
     })
-    console.log(newlayout)
-    console.log(layouttemp)
       setLayout(newlayout.concat( [{i: String(newlayout.length +1), x:layoutItem.x,y:layoutItem.y,w:data.w,h:data.h,name: data.name,data:await response.data,type: data.types}]))
 
       setLayouts({
@@ -144,7 +191,6 @@ function tiles(exp,el) {
           }).then(res => res.json())  
           .then(res => console.log(res))
   
-    }
       
     
 
@@ -246,7 +292,7 @@ function tiles(exp,el) {
 
     <DashboardLayout deleteAll={() => deleteAll()} delete={(value) => deleteT(value)}>
 
-    <ResponsiveGridLayout className="layout" layouts={layoutsState}
+    <ResponsiveGridLayout id="grid" className="layout" layouts={layoutsState}
       onLayoutChange={(layout, layouts) => {
         onLayoutChange(layout, layouts)
       }}
