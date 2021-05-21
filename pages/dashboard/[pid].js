@@ -68,6 +68,19 @@ function tiles(exp,el) {
           <Piechart dat={el.data} />
         )
         break;
+
+      
+        case 'timestamps':
+          console.log(el.data)
+          html = (
+            <div>
+
+              <p>Start: {el.data[0]}</p>
+              <p>End: {el.data[1]}</p>
+            </div>
+
+          )
+          break;
       
       case 'table':
         console.log(el.data)

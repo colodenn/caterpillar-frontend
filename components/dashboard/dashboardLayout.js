@@ -8,7 +8,7 @@ import Pdf from "react-to-pdf";
 const options = {
     orientation: 'landscape',
     unit: 'in',
-    format: [40,20]
+    format: [50,20]
 };
 const ref = React.createRef();
 const DashboardLayout = (props) => {
@@ -37,15 +37,15 @@ const DashboardLayout = (props) => {
         'data': `{"color":"#C71585","h":3,"w":4,"name":"Aktivity Pie Chart","types":"piechart","api": "http://localhost:5000/api/activitesArray/${fileName}"}`
     },
     {
-        'title': 'Mean Throughputtime',
+        'title': 'Median Throughputtime',
         'description': '2 x 2',
-        'data': `{"color":"#C71585","h":2,"w":2,"name":"Mean Throughputtime","types":"number","api": "http://localhost:5000/api/meanThroughputtime/${fileName}"}`
+        'data': `{"color":"#C71585","h":1,"w":2,"name":"Median Throughputtime","types":"number","api": "http://localhost:5000/api/medianThroughputtime/${fileName}"}`
     },
     
     {
         'title': 'Period',
-        'description': '2 x 2',
-        'data': `{"color":"#C71585","h":2,"w":2,"name":"Period","types":"timestamp","api": "http://localhost:5000/api/StartEnd/${fileName}"}`
+        'description': '2 x 1',
+        'data': `{"color":"#C71585","h":1,"w":2,"name":"Period","types":"timestamps","api": "http://localhost:5000/api/StartEnd/${fileName}"}`
     },
 
     {
@@ -60,11 +60,11 @@ const DashboardLayout = (props) => {
         'data': `{"color":"#C71585","h":3,"w":4,"name":"Throughputtime","types":"piechart","api": "http://localhost:5000/api/Throughputtime/${fileName}"}`
     },
 
-    {
-        'title': 'Unique Resources Count',
-        'description': '2 x 2',
-        'data': `{"color":"#C71585","h":2,"w":2,"name":"Unique Resources Count","types":"number","api": "http://localhost:5000/api/UniqueResource/${fileName}"}`
-    },
+    // {
+    //     'title': 'Unique Resources Count',
+    //     'description': '2 x 2',
+    //     'data': `{"color":"#C71585","h":2,"w":2,"name":"Unique Resources Count","types":"number","api": "http://localhost:5000/api/UniqueResource/${fileName}"}`
+    // },
 
     {
         'title': 'Resource Pie Chart',
@@ -85,6 +85,8 @@ const DashboardLayout = (props) => {
             'data': `{"color":"#C71585","h":4,"w":8,"name":"Table","api": "http://localhost:5000/api/getTable/${fileName}","types":"table"}`
         },
     ]
+
+    const algorithmBlocks = []
 
     function deleteButton(i) {
         closeSidebar()
@@ -138,7 +140,7 @@ const DashboardLayout = (props) => {
                 <div>
                 <button onClick={() => deleteAll()} className="border  rounded px-2 py-2 text-gray-400  text-sm hover:text-gray-300 hover:border-gray-100 font-medium ">Discard</button>
                     <span className="mr-2 ml-2"></span>
-                    <Pdf targetRef={ref} options={options} scale={1} filename="code-example.pdf">
+                    <Pdf targetRef={ref} options={options} scale={2} filename="code-example.pdf">
 
                     {({ toPdf }) =>  <button  onClick={toPdf} className="bg-blue-500 hover:bg-blue-400 rounded px-4 py-2 text-sm text-white font-medium ">Publish & export</button>}
                     </Pdf>
@@ -159,13 +161,13 @@ const DashboardLayout = (props) => {
 <Tabs>
     <div className=" border-b-1">
         <TabList className="flex mt-4  px-2">
-            <Tab  className="mx-auto text-center font-medium text-sm  px-4 pb-2 border-b-4 " style={{ 'color': '#393c44'}}>Statistics</Tab>
-            <Tab  className="mx-auto text-center font-medium text-sm px-4 pb-2 border-b-4" style={{ 'color': '#393c44'}}>Discovery</Tab>
-            <Tab className="mx-auto text-center font-medium text-sm px-4 pb-2 border-b-4" style={{ 'color': '#393c44'}}>Algorithmen</Tab>
+            <Tab  className="mx-auto text-center font-medium text-sm  px-4 pb-2 border-b-4 cursor-pointer" style={{ 'color': '#393c44'}}>Statistics</Tab>
+            <Tab  className="mx-auto text-center font-medium text-sm px-4 pb-2 border-b-4 cursor-pointer" style={{ 'color': '#393c44'}}>Discovery</Tab>
+            <Tab className="mx-auto text-center font-medium text-sm px-4 pb-2 border-b-4 cursor-pointer" style={{ 'color': '#393c44'}}>Algorithmen</Tab>
         </TabList>
     </div>
     <TabPanel>   
-<div className="py-2 px-3">
+<div className="py-2 px-3 overflow-auto h-full">
 {
     statisticBlocks.map(el => {
      
@@ -201,7 +203,10 @@ const DashboardLayout = (props) => {
      </div>  
      </TabPanel>
      <TabPanel>
+<div className="py-2 px-3 overflow-auto h-full">
+
      {
+         
     discoveryBlocks.map(el => {
         return (
         <div key={el.title}  className="hover:shadow rounded p-5 flex cursor-pointer droppable-element "
@@ -229,10 +234,13 @@ const DashboardLayout = (props) => {
     })
 
 }
+</div>
      </TabPanel>
      <TabPanel>
+<div className="py-2 px-3 overflow-auto h-full">
+
      {
-    discoveryBlocks.map(el => {
+    algorithmBlocks.map(el => {
         return  (
         <div  key={el.title} className="hover:shadow rounded p-5 flex cursor-pointer droppable-element "
         draggable={true}
@@ -259,6 +267,7 @@ const DashboardLayout = (props) => {
     })
 
 }
+</div>
      </TabPanel>
 </Tabs>
        
