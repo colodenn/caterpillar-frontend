@@ -2,6 +2,8 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Link from 'next/link'
 import 'react-tabs/style/react-tabs.css';
 import { useRouter } from 'next/router'
+import Modal from 'react-modal';
+import Cookies from 'js-cookie';
 
 import React, { useState } from 'react';
 import Pdf from "react-to-pdf";
@@ -11,8 +13,35 @@ const options = {
     format: [50,20]
 };
 const ref = React.createRef();
+const customStyles = {
+    content : {
+      top                   : '50%',
+      left                  : '50%',
+      right                 : 'auto',
+      bottom                : 'auto',
+      marginRight           : '-50%',
+      transform             : 'translate(-50%, -50%)',
+      boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+    }
+  };
 const DashboardLayout = (props) => {
     const router = useRouter()
+    const { pid } = router.query
+    var subtitle;
+    const [modalIsOpen,setIsOpen] = React.useState(false);
+    const [shareLink, setShareLink] = useState("")
+    function openModal() {
+      setIsOpen(true);
+    }
+  
+    function afterOpenModal() {
+      // references are now sync'd and can be accessed.
+    //   subtitle.style.color = '#f00';
+    }
+  
+    function closeModal(){
+      setIsOpen(false);
+    }
     const fileName = router.query.pid
     const [searchTerm, setSearchTerm] = useState("");
     const statisticBlocks = [
@@ -115,6 +144,20 @@ const DashboardLayout = (props) => {
             return document.getElementById('grid')
           }
     }
+
+    async function getLink() {
+        const did = Cookies.get('api_token')
+        var myHeaders = new Headers();
+        myHeaders.append("api_token", did)
+          const file = fetch(`http://localhost:5000/share/create/${pid}`, {
+                  method: 'GET',
+                  credentials: 'include',
+                  headers: myHeaders
+                }).then( res => res.json()).then( res => {
+                    setShareLink(res.data)
+                })
+    
+    }
     // console.log(JSON.parse(statisticBlocks[0].data).name.toLowerCase().includes(searchTerm))
 
     return (
@@ -140,10 +183,37 @@ const DashboardLayout = (props) => {
                 <div>
                 <button onClick={() => deleteAll()} className="border  rounded px-2 py-2 text-gray-400  text-sm hover:text-gray-300 hover:border-gray-100 font-medium ">Discard</button>
                     <span className="mr-2 ml-2"></span>
-                    <Pdf targetRef={ref} options={options} scale={2} filename="code-example.pdf">
+                    <button  onClick={openModal} className="bg-blue-500 hover:bg-blue-400 rounded px-4 py-2 text-sm text-white font-medium ">Publish & export</button>
+        <Modal
+          isOpen={modalIsOpen}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+            <div className="p-8">
+                <div className="flex">
 
-                    {({ toPdf }) =>  <button  onClick={toPdf} className="bg-blue-500 hover:bg-blue-400 rounded px-4 py-2 text-sm text-white font-medium ">Publish & export</button>}
-                    </Pdf>
+
+                <div className="mr-8">
+                            <Pdf targetRef={ref} options={options} scale={2} filename="code-example.pdf">
+
+                            {({ toPdf }) =>  <button  onClick={toPdf} className="bg-blue-500 hover:bg-blue-400 rounded px-4 py-2 text-sm text-white font-medium ">Export</button>}
+                            </Pdf>
+
+                </div>
+                    <div className="">
+                    <button onClick={() => getLink()} className="bg-blue-500 hover:bg-blue-400 rounded px-4 py-2 text-sm text-white font-medium ">Share</button>
+
+                    </div>
+                </div>
+                <div>
+                    <a href={"http://localhost:3000/share/"+shareLink}>{"https://localhost:3000/share/"+shareLink}</a>
+                   
+                </div>
+            </div>
+
+        </Modal>
                 </div>
             </div>
         </nav>
@@ -193,6 +263,7 @@ const DashboardLayout = (props) => {
 </p>
 </div>
 </div>
+
         ) : <></>
     })
 

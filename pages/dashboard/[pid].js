@@ -299,7 +299,7 @@ return (
     }
   }
  
-  
+  console.log(layoutState)
   return (
     <>
 
@@ -316,6 +316,7 @@ return (
         autoSize={true}
         >
           {
+           
            layoutState.map( el => {
              return (
                 <div className="bg-white shadow-md rounded-md"  key={el.i}>
