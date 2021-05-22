@@ -16,6 +16,7 @@ export default function Login() {
       .auth
       .loginWithMagicLink({ email: elements.email.value })
 
+      console.log(process.env.BACKEND_URL)
     // Once we have the did from magic, login with our own API
     await fetch(`${process.env.BACKEND_URL}/v1/user/login`, {
       method: 'POST',
