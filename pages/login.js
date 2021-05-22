@@ -11,14 +11,14 @@ export default function Login() {
     const { elements } = event.target
 
     // the Magic code
-    console.log(process.env.NEXT_PUBLIC_MAGIC_PUB_KEY)
-    const did = await new Magic(process.env.NEXT_PUBLIC_MAGIC_PUB_KEY)
+    console.log(process.env.NEXT_PUBLIC_NEXT_PUBLIC_MAGIC_PUB_KEY)
+    const did = await new Magic(process.env.NEXT_PUBLIC_NEXT_PUBLIC_MAGIC_PUB_KEY)
       .auth
       .loginWithMagicLink({ email: elements.email.value })
 
       console.log(process.env)
     // Once we have the did from magic, login with our own API
-    await fetch(`${process.env.SERVERURL}v1/user/login`, {
+    await fetch(`http://46.101.163.83:5000/v1/user/login`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${did}` },
     }).then(response => {
