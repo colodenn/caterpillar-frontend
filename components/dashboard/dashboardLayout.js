@@ -149,7 +149,7 @@ const DashboardLayout = (props) => {
         const did = Cookies.get('api_token')
         var myHeaders = new Headers();
         myHeaders.append("api_token", did)
-          const file = fetch(`http://localhost:5000/share/create/${pid}`, {
+          const file = fetch(`${process.env.SERVERURL}/share/create/${pid}`, {
                   method: 'GET',
                   credentials: 'include',
                   headers: myHeaders

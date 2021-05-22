@@ -8,7 +8,7 @@ function  deleteFile (e) {
   const did = Cookies.get('api_token')
   var myHeaders = new Headers();
   myHeaders.append("api_token", did)
-   fetch(`http://localhost:5000/file/${e}`, {
+   fetch(`${process.env.SERVERURL}/file/${e}`, {
     method: 'DELETE',
     credentials: 'include',
     headers: myHeaders
@@ -22,7 +22,7 @@ export default function  dashboard() {
   const did = Cookies.get('api_token')
   var myHeaders = new Headers();
   myHeaders.append("api_token", did)
-  const file = fetch('http://localhost:5000/files', {
+  const file = fetch(`${process.env.SERVERURL}/files`, {
           method: 'GET',
           credentials: 'include',
           headers: myHeaders
