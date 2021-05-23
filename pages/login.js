@@ -18,7 +18,7 @@ export default function Login() {
 
       console.log(process.env)
     // Once we have the did from magic, login with our own API
-    await fetch(`http://localhost:5000/v1/user/login`, {
+    await fetch(`${process.env.NEXT_PUBLIC_SERVERURL}/v1/user/login`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${did}` },
     }).then(response => {
