@@ -48,57 +48,57 @@ const DashboardLayout = (props) => {
     {
         'title': 'Notes',
         'description': '3 x 3',
-        'data': `{"color":"#C71585","h":3,"w":3,"name":"Notes","api": "http://localhost:5000/api/eventcount/${fileName}","types":"notes"}`
+        'data': `{"color":"#C71585","h":3,"w":3,"name":"Notes","api": "${process.env.NEXT_PUBLIC_SERVERURL}/eventcount/${fileName}","types":"notes"}`
     },
     {
         'title': 'Event count',
         'description': '1 x 1',
-        'data': `{"color":"#C71585","h":1,"w":1,"name":"Event count","api": "http://localhost:5000/api/eventcount/${fileName}","types":"number"}`
+        'data': `{"color":"#C71585","h":1,"w":1,"name":"Event count","api": "${process.env.NEXT_PUBLIC_SERVERURL}/eventcount/${fileName}","types":"number"}`
     },
     {
         'title': 'Unique Activites Count',
         'description': '1 x 1',
-        'data': `{"color":"#C71585","h":1,"w":1,"name":"Unique Activites Count","types":"number","api":"http://localhost:5000/api/uniqueActivitiesCount/${fileName}"}`
+        'data': `{"color":"#C71585","h":1,"w":1,"name":"Unique Activites Count","types":"number","api":"${process.env.NEXT_PUBLIC_SERVERURL}/uniqueActivitiesCount/${fileName}"}`
     },
     {
         'title': 'Aktivity Pie Chart',
         'description': '4 x 3',
-        'data': `{"color":"#C71585","h":3,"w":4,"name":"Aktivity Pie Chart","types":"piechart","api": "http://localhost:5000/api/activitesArray/${fileName}"}`
+        'data': `{"color":"#C71585","h":3,"w":4,"name":"Aktivity Pie Chart","types":"piechart","api": "${process.env.NEXT_PUBLIC_SERVERURL}/activitesArray/${fileName}"}`
     },
     {
         'title': 'Median Throughputtime',
         'description': '2 x 2',
-        'data': `{"color":"#C71585","h":1,"w":2,"name":"Median Throughputtime","types":"number","api": "http://localhost:5000/api/medianThroughputtime/${fileName}"}`
+        'data': `{"color":"#C71585","h":1,"w":2,"name":"Median Throughputtime","types":"number","api": "${process.env.NEXT_PUBLIC_SERVERURL}/medianThroughputtime/${fileName}"}`
     },
     
     {
         'title': 'Period',
         'description': '2 x 1',
-        'data': `{"color":"#C71585","h":1,"w":2,"name":"Period","types":"timestamps","api": "http://localhost:5000/api/StartEnd/${fileName}"}`
+        'data': `{"color":"#C71585","h":1,"w":2,"name":"Period","types":"timestamps","api": "${process.env.NEXT_PUBLIC_SERVERURL}/StartEnd/${fileName}"}`
     },
 
     {
         'title': 'Cases',
         'description': '2 x 2',
-        'data': `{"color":"#C71585","h":2,"w":2,"name":"Cases","types":"number","api": "http://localhost:5000/api/CaseCount/${fileName}"}`
+        'data': `{"color":"#C71585","h":2,"w":2,"name":"Cases","types":"number","api": "${process.env.NEXT_PUBLIC_SERVERURL}/CaseCount/${fileName}"}`
     },
 
     {
         'title': 'Throughputtime Pie Chart',
         'description': '4 x 3',
-        'data': `{"color":"#C71585","h":3,"w":4,"name":"Throughputtime","types":"piechart","api": "http://localhost:5000/api/Throughputtime/${fileName}"}`
+        'data': `{"color":"#C71585","h":3,"w":4,"name":"Throughputtime","types":"piechart","api": "${process.env.NEXT_PUBLIC_SERVERURL}/Throughputtime/${fileName}"}`
     },
 
     // {
     //     'title': 'Unique Resources Count',
     //     'description': '2 x 2',
-    //     'data': `{"color":"#C71585","h":2,"w":2,"name":"Unique Resources Count","types":"number","api": "http://localhost:5000/api/UniqueResource/${fileName}"}`
+    //     'data': `{"color":"#C71585","h":2,"w":2,"name":"Unique Resources Count","types":"number","api": "http://localhost:5000/UniqueResource/${fileName}"}`
     // },
 
     {
         'title': 'Resource Pie Chart',
         'description': '4 x 3',
-        'data': `{"color":"#C71585","h":3,"w":4,"name":"Resource Pie Chart" ,"types":"piechart","api": "http://localhost:5000/api/ResourceCount/${fileName}"}`
+        'data': `{"color":"#C71585","h":3,"w":4,"name":"Resource Pie Chart" ,"types":"piechart","api": "${process.env.NEXT_PUBLIC_SERVERURL}/ResourceCount/${fileName}"}`
     },
     ]
 
@@ -106,12 +106,12 @@ const DashboardLayout = (props) => {
         {
             'title': 'Petrinet',
             'description': '5 x 4',
-            'data': `{"color":"#C71585","h":2,"w":7,"name":"Petrinet","api": "http://localhost:5000/uploads/petrinet/${fileName}","types":"image"}`
+            'data': `{"color":"#C71585","h":2,"w":7,"name":"Petrinet","api": "${process.env.NEXT_PUBLIC_SERVERURL}/uploads/petrinet/${fileName}","types":"image"}`
         },
         {
             'title': 'Table',
             'description': '8 x 4',
-            'data': `{"color":"#C71585","h":4,"w":8,"name":"Table","api": "http://localhost:5000/api/getTable/${fileName}","types":"table"}`
+            'data': `{"color":"#C71585","h":4,"w":8,"name":"Table","api": "${process.env.NEXT_PUBLIC_SERVERURL}/getTable/${fileName}","types":"table"}`
         },
     ]
 
@@ -149,7 +149,7 @@ const DashboardLayout = (props) => {
         const did = Cookies.get('api_token')
         var myHeaders = new Headers();
         myHeaders.append("api_token", did)
-          const file = fetch(`${process.env.SERVERURL}/share/create/${pid}`, {
+          const file = fetch(`${process.env.NEXT_PUBLIC_SERVERURL}/share/create/${pid}`, {
                   method: 'GET',
                   credentials: 'include',
                   headers: myHeaders
@@ -208,7 +208,7 @@ const DashboardLayout = (props) => {
                     </div>
                 </div>
                 <div>
-                    <a href={"http://localhost:3000/share/"+shareLink}>{"https://localhost:3000/share/"+shareLink}</a>
+                    <a href={`${process.env.NEXT_PUBLIC_SERVERURL}/share/`+shareLink}>{`${process.env.NEXT_PUBLIC_SERVERURL}/share/`+shareLink}</a>
                    
                 </div>
             </div>

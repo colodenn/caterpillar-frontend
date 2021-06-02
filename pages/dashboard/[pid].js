@@ -27,7 +27,7 @@ export default function  dashboardSlug() {
     var myHeaders = new Headers();
     myHeaders.append("api_token", did)
     if (typeof pid !== "undefined") {
-      const file = fetch(`${process.env.SERVERURL}/tiles/${pid}`, {
+      const file = fetch(`http://localhost/api/tiles/${pid}`, {
               method: 'GET',
               credentials: 'include',
               headers: myHeaders
@@ -195,7 +195,7 @@ return (
           myHeaders.append("api_token", did)
           myHeaders.append('Content-Type','application/json')
           // send layoutState and layoutsState and Store on mongodb
-          const file = fetch(`${process.env.SERVERURL}/tiles/add/${pid}`, {
+          const file = fetch(`http://localhost/api/tiles/add/${pid}`, {
             method: 'POST',
             credentials: 'include',
             
@@ -260,7 +260,7 @@ return (
       myHeaders.append("api_token", did)
       myHeaders.append('Content-Type','application/json')
       // send layoutState and layoutsState and Store on mongodb
-      const file = fetch(`http://localhost:5000/tiles/add/${pid}`, {
+      const file = fetch(`http://localhost/api/tiles/add/${pid}`, {
         method: 'POST',
         credentials: 'include',
         
