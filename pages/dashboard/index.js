@@ -2,6 +2,7 @@ import DashboardLayoutFile from '../../components/dashboard/dashboardLayoutFiles
 import Cookies from 'js-cookie';
 import React, {useState} from 'react';
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 
 function  deleteFile (e) {
@@ -16,6 +17,7 @@ function  deleteFile (e) {
 }
 
 export default function  dashboard() {
+  const router = useRouter()
 
   const [files, setFiles] = useState([])
 
@@ -26,8 +28,16 @@ export default function  dashboard() {
           method: 'GET',
           credentials: 'include',
           headers: myHeaders
-        }).then( res => res.json()).then( res => 
-            setFiles(() => res['files'])).catch(err => err)
+        }).then(res => {
+          if(res.ok) {
+            return res.json()
+          } else {
+            router.push(`/login`)
+            return {"files": []}
+          }
+        }
+          ).then(res => setFiles(() => res['files']))
+            .catch(res => console.log(res))
   
   const folders = [
     {"name": "Documents", "description": "24 files"},

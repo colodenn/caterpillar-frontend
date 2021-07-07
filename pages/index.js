@@ -23,12 +23,8 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="absolute right-0 mt-72 ">
-              <h1 id="huge" className="text-center font-bold  w-full h-full">
-                0 1 0 1 <br />
-                0 1 0 1 <br />
-                0 1 0 1
-              </h1>
+            <div>
+                
             </div>
           </main>
           

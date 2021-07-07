@@ -10,10 +10,6 @@ export default function Login() {
     event.preventDefault()
     const { elements } = event.target
 
-    // the Magic code
-    console.log(process.env.NEXT_PUBLIC_MAGIC_PUB_KEY)
-    console.log(process.env.NEXT_PUBLIC_SERVERURL)
-
     const did = await new Magic(process.env.NEXT_PUBLIC_MAGIC_PUB_KEY)
       .auth
       .loginWithMagicLink({ email: elements.email.value })
@@ -32,6 +28,8 @@ export default function Login() {
       }
     });
   }
+
+
   return (
     <>
     <div className="h-screen w-screen overflow-hidden">
@@ -39,11 +37,10 @@ export default function Login() {
         <img src="/logo.svg" className="mx-auto mt-8" />
       </aside>
       <div className="flex ml-20 p-36 px-48 justify-between">
-
           <div className="m-auto mr-24 ">
           <form onSubmit={handleSubmit}>
           <h1 className="text-5xl font-bold  ">
-                Sign in to Caterpillar <br></br> Analysis Dashboard
+                Sign in to Caterpillar<br></br> Analysis Dashboard
               </h1>
                       <div className="mt-10 relative border-b-2 focus-within:border-gray-500">
                   <input type="text" name="email" placeholder=" " className="block w-full appearance-none bg-transparent focus:outline-none " />

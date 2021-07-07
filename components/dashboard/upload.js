@@ -1,16 +1,13 @@
 import React,{ useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-
-import Link from 'next/link'
-import axios from 'axios'
-
+import ClipLoader from "react-spinners/ClipLoader";
 import { Router, useRouter } from 'next/router'
+
 const Upload = (props) => { 
 const router = useRouter()
-let data;
     // Create a reference to the hidden file input element
 	const [selectedFile, setSelectedFile] = useState();
-
+  const [spinner, setSpinner] = useState(false);
   const hiddenFileInput = React.useRef(null);
   const handleClick = event => {
     hiddenFileInput.current.click();
@@ -28,12 +25,18 @@ let data;
     const did = Cookies.get('api_token')
     var myHeaders = new Headers();
     myHeaders.append("api_token", did)
+    setSpinner(true)
     const file = fetch(`${process.env.NEXT_PUBLIC_SERVERURL}/uploadFile`, {
             method: 'POST',
             credentials: 'include',
             headers: myHeaders,
             body: formData
           }).then(
+            res => {
+              if(res.ok){
+                setSpinner(false)
+              }
+            }
           )  
   }
     return (
@@ -63,6 +66,7 @@ let data;
         onChange={handleChange}
         style={{display:"none"}}
         className="absolute"
+        accept=".csv,.xes"
       />
         { selectedFile ? (
           <div>
@@ -72,10 +76,15 @@ let data;
       ) : (<></>)}
     </div>
 </div>
-<div className="mx-auto font-sans text-center mt-10">
+<div className="mx-auto font-sans text-center mt-8">
+
       <button onClick={uploadClick} className="ml-2 bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded">
           Upload Eventlog
         </button>
+  <div className="mt-4">
+
+      <ClipLoader  className="mb-4" size={20} color={"#5B75D2"} loading={spinner} speedMultiplier={1.5} />
+  </div>
       </div>
     </>
     )

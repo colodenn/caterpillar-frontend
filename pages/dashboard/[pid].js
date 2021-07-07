@@ -260,7 +260,7 @@ return (
       myHeaders.append("api_token", did)
       myHeaders.append('Content-Type','application/json')
       // send layoutState and layoutsState and Store on mongodb
-      const file = fetch(`http://localhost/api/tiles/add/${pid}`, {
+      const file = fetch(`${process.env.NEXT_PUBLIC_SERVERURL}/tiles/add/${pid}`, {
         method: 'POST',
         credentials: 'include',
         
@@ -277,7 +277,7 @@ return (
       myHeaders.append("api_token", did)
       myHeaders.append('Content-Type','application/json')
       // send layoutState and layoutsState and Store on mongodb
-      const file = fetch(`http://localhost:5000/tiles/add/${pid}`, {
+      const file = fetch(`${process.env.NEXT_PUBLIC_SERVERURL}/tiles/add/${pid}`, {
         method: 'POST',
         credentials: 'include',
         
