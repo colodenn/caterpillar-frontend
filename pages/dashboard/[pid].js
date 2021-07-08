@@ -254,6 +254,7 @@ export default function dashboardSlug() {
       }).then((res) => res.json());
     }
     let newlayout = [];
+    let count = 0;
     layoutState.map((e) => {
       let temp = layouttemp.find((x) => x.i == e.i);
       let temp2 = e;
@@ -263,11 +264,27 @@ export default function dashboardSlug() {
       temp2.y = temp.y;
 
       newlayout = newlayout.concat(temp2);
+      if (parseInt(e.i) > count) count = parseInt(e.i);
     });
     setLayout(
       newlayout.concat([
         {
-          i: String(newlayout.length + 1),
+          i: String(count + 1),
+          x: layoutItem.x,
+          y: layoutItem.y,
+          w: data.w,
+          h: data.h,
+          name: data.name,
+          data: await response.data,
+          type: data.types,
+        },
+      ])
+    );
+
+    console.log(
+      newlayout.concat([
+        {
+          i: String(count + 1),
           x: layoutItem.x,
           y: layoutItem.y,
           w: data.w,
@@ -281,7 +298,7 @@ export default function dashboardSlug() {
     setLayouts({
       lg: newlayout.concat([
         {
-          i: String(newlayout.length + 1),
+          i: String(count + 1),
           x: layoutItem.x,
           y: layoutItem.y,
           w: data.w,
@@ -482,7 +499,7 @@ export default function dashboardSlug() {
                     </button>
                   </div>
                 </div>
-                <>{tiles(el.type, el)}</>
+                <>{tiles(el.type, el, addAll)}</>
               </div>
             );
           })}
