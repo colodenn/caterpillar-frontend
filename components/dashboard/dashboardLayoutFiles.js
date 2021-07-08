@@ -1,8 +1,13 @@
 import Upload from './upload'
-
+import { useState } from 'react'
 
 const DashboardLayoutFile = (props) => {
+    const [searchTerm, setSearchTerm] = useState('')
 
+    const handleChange = event => {
+        setSearchTerm(event.target.value)
+        props.change(event.target.value)
+    }
     return (
         <>
 <div className="h-screen disableScroll overflow-hidden " >
@@ -13,7 +18,7 @@ const DashboardLayoutFile = (props) => {
                 </div>
                 <div className="flex w-96">
                 <img src="/search.svg" className="absolute ml-2 mt-5"></img>
-        <input type="text" className=" h-10 w-full mt-2  rounded align-middle" style={{ 'textIndent': '28px',     'border': '1px solid #E8E8EF',    'boxShadow': '0px 2px 8px rgb(34 34 87 / 5%)' }} placeholder="Search files"/>
+        <input onChange={handleChange}  value={searchTerm} type="text" className=" h-10 w-full mt-2  rounded align-middle" style={{ 'textIndent': '28px',     'border': '1px solid #E8E8EF',    'boxShadow': '0px 2px 8px rgb(34 34 87 / 5%)' }} placeholder="Search files"/>
                 </div>
                 <div className="flex">
                     <div className="rounded-full w-12 h-12 mr-8">
@@ -35,7 +40,7 @@ const DashboardLayoutFile = (props) => {
             </div>
          
         </aside>
-    <main className="flex-1 flex disableScroll backgroundTile overflow-y-scroll h-screen  ml-96 mt-0 p-12">
+    <main className="flex-1 flex height disableScroll backgroundTile overflow-y-scroll   ml-96 mt-0 p-12 ">
         <div className='flex-1   mx-auto p-4'>{props.children}</div>
     </main>
         </div>
@@ -45,6 +50,10 @@ const DashboardLayoutFile = (props) => {
         border-bottom: 4px solid #60A5FA;
         padding-bottom: 0.5rem;
 
+    }
+
+    .height {
+        height: calc(100vh - 5.5rem);
     }
 
     .react-tabs__tab-list {

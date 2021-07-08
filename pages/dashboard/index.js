@@ -20,6 +20,7 @@ export default function  dashboard() {
   const router = useRouter()
 
   const [files, setFiles] = useState([])
+  const [searchTerm, setSearchTerm] = useState('')
 
   const did = Cookies.get('api_token')
   var myHeaders = new Headers();
@@ -44,8 +45,9 @@ export default function  dashboard() {
     {"name": "Personal", "description": "24 files"}
   ]
 
+
   return (
- <DashboardLayoutFile>
+ <DashboardLayoutFile change={setSearchTerm}>
 <>
       <h1 className="text-gray-600 font-bold text-lg mb-8">All files</h1>
  
@@ -71,10 +73,9 @@ export default function  dashboard() {
 
       <h1 className="text-gray-600 font-bold text-lg mb-8">All files {'>'} Documents</h1>
 
-      <div className="block mb-8">
+      <div className="block mb-8 pb-8">
       { files.map(el => {
-
-      return (
+      return el.name.toLowerCase().includes(searchTerm.toLowerCase()) ? (
         
         <div key={el.name} className=" cursor-pointer  mb-4 rounded shadow-md rounded-md p-4 bg-white">
               <div className="flex justify-between">
@@ -98,7 +99,7 @@ export default function  dashboard() {
                       </div>
                 </div>
           </div>
-      )
+      ) : <> </>
       })}
              <div key="default" className=" cursor-pointer mb-4 rounded shadow-md rounded-md p-4 bg-white">
               <div className="flex mx-auto">

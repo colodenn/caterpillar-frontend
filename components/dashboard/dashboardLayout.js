@@ -35,8 +35,7 @@ const DashboardLayout = (props) => {
     }
   
     function afterOpenModal() {
-      // references are now sync'd and can be accessed.
-    //   subtitle.style.color = '#f00';
+
     }
   
     function closeModal(){
@@ -158,7 +157,6 @@ const DashboardLayout = (props) => {
                 })
     
     }
-    // console.log(JSON.parse(statisticBlocks[0].data).name.toLowerCase().includes(searchTerm))
 
     return (
         <>
@@ -344,7 +342,7 @@ const DashboardLayout = (props) => {
        
        
         </aside>
-    <main className="flex-1 flex disableScroll backgroundTile overflow-y-scroll h-screen  ml-96 mt-0">
+    <main className="flex-1 flex disableScroll backgroundTile overflow-y-scroll height ml-96 mt-0">
         <div ref={ref} className='flex-1   mx-auto p-4'>{props.children}</div>
     </main>
     <aside id="properties" className="mt-0 right-0 fixed bg-white w-96 border-r-1 h-screen hidden">
@@ -377,7 +375,9 @@ const DashboardLayout = (props) => {
         padding-bottom: 0.5rem;
 
     }
-
+    .height {
+        height: calc(100vh - 5.5rem);
+    }
     .react-tabs__tab-list {
         border-bottom: 4px solid #60A5FA;
     }
