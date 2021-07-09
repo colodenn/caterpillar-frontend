@@ -4,9 +4,10 @@ import "react-tabs/style/react-tabs.css";
 import { useRouter } from "next/router";
 import Modal from "react-modal";
 import Cookies from "js-cookie";
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Pdf from "react-to-pdf";
+
+import Sidebar from "../../components/dashboard/sidebar";
 const options = {
   orientation: "landscape",
   unit: "in",
@@ -27,12 +28,15 @@ const customStyles = {
 const DashboardLayout = (props) => {
   const router = useRouter();
   const { pid } = router.query;
-  var subtitle;
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [shareLink, setShareLink] = useState("");
   function openModal() {
     setIsOpen(true);
   }
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    setIndex(props.index);
+  });
 
   function afterOpenModal() {}
 
@@ -97,6 +101,11 @@ const DashboardLayout = (props) => {
       description: "4 x 3",
       data: `{"color":"#C71585","h":3,"w":4,"name":"Resource Pie Chart" ,"types":"piechart","api": "${process.env.NEXT_PUBLIC_SERVERURL}/ResourceCount/${fileName}"}`,
     },
+    {
+      title: "Custom Piechart",
+      description: "4 x 3",
+      data: `{"color":"#C71585","h":3,"w":4,"name":"Custom Pie Chart" ,"types":"custompiechart","api": "${process.env.NEXT_PUBLIC_SERVERURL}/customPieChart/${fileName}"}`,
+    },
   ];
 
   const discoveryBlocks = [
@@ -114,20 +123,23 @@ const DashboardLayout = (props) => {
 
   const algorithmBlocks = [];
 
-  function deleteButton(i) {
-    closeSidebar();
-    props.delete(i);
-  }
-
-  function deleteAll() {
-    props.deleteAll();
-  }
-
   function closeSidebar() {
     if (typeof window !== "undefined") {
       const properties = document.getElementById("properties");
       properties.style.display = "none";
     }
+  }
+  function deleteButton(i) {
+    closeSidebar();
+    props.delete(i);
+  }
+
+  function getType(i) {
+    return props.type(i);
+  }
+
+  function deleteAll() {
+    props.deleteAll();
   }
 
   const handleChange = (event) => {
@@ -298,7 +310,7 @@ const DashboardLayout = (props) => {
                 </TabList>
               </div>
               <TabPanel>
-                <div className="py-2 px-3 overflow-auto h-full">
+                <div className="py-2 px-3 overflow-y-scroll height-side h-full">
                   {statisticBlocks.map((el) => {
                     return JSON.parse(el.data)
                       .name.toLowerCase()
@@ -398,42 +410,39 @@ const DashboardLayout = (props) => {
               {props.children}
             </div>
           </main>
-          <aside
-            id="properties"
-            className="mt-0 right-0 fixed bg-white w-96 border-r-1 h-screen hidden"
-          >
-            <div className="px-8 py-2 h-full">
-              <div className="flex justify-between">
-                <div>
-                  <h1 className="font-medium text-2xl mb-4 mt-2">Properties</h1>
-                </div>
-                <div className="my-auto">
-                  <button onClick={() => closeSidebar()}>
-                    <img className="transform " src="/close.svg" />
-                  </button>
-                </div>
-              </div>
-              <div className="mx-auto flex align-bottom ">
-                <button
-                  onClick={(e) => deleteButton(e.target.value)}
-                  id="closeButton"
-                  value="test"
-                  className="mx-auto w-full border rounded py-3 px-8 text-xl hover:bg-gray-100 "
-                >
-                  Delete Block
-                </button>
-              </div>
-            </div>
-          </aside>
+          <Sidebar
+            index={index}
+            deleteButton={deleteButton}
+            type={(i) => getType(i)}
+          />
         </div>
       </div>
       <style jsx>{`
+        /* width */
+        ::-webkit-scrollbar {
+          width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+          background: #888;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+          background: #555;
+        }
         .react-tabs__tab--selected {
           border-bottom: 4px solid #60a5fa;
           padding-bottom: 0.5rem;
         }
         .height {
-          height: calc(100vh - 5.5rem);
+          height: calc(100vh - 4.4rem);
         }
         .react-tabs__tab-list {
           border-bottom: 4px solid #60a5fa;
@@ -445,7 +454,9 @@ const DashboardLayout = (props) => {
         .border-r-1 {
           border-right: 1px solid #e8e8ef;
         }
-
+        .height-side {
+          height: calc(100vh - 15rem);
+        }
         .backgroundTile {
           background-image: url("/tile.png");
           background-repeat: repeat;

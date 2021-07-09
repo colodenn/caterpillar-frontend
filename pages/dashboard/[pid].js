@@ -5,7 +5,7 @@ import DashboardLayout from "../../components/dashboard/dashboardLayout";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { resetIdCounter } from "react-tabs";
-import { tiles, openSidebar } from "../../utils/ui/ui";
+import { tiles } from "../../utils/ui/ui";
 var layout1 = [];
 var layoutst = {
   lg: layout1,
@@ -17,6 +17,18 @@ var layoutst = {
 
 let layouttemp = [];
 export default function dashboardSlug() {
+  const [index, setIndex] = useState(0);
+
+  function openSidebar(index) {
+    if (typeof window !== "undefined") {
+      const properties = document.getElementById("properties");
+      properties.style.display = "block";
+      properties.value = index;
+      const closeButton = document.getElementById("closeButton");
+      closeButton.value = index;
+      setIndex(index);
+    }
+  }
   const router = useRouter();
 
   const fileName = router.query.pid;
@@ -77,6 +89,24 @@ export default function dashboardSlug() {
       description: "4 x 3",
       data: `{"color":"#C71585","h":3,"w":4,"name":"Resource Pie Chart" ,"types":"piechart","api": "${process.env.NEXT_PUBLIC_SERVERURL}/ResourceCount/${fileName}"}`,
     },
+    {
+      title: "Custom Piechart",
+      description: "4 x 3",
+      data: `{"color":"#C71585","h":3,"w":4,"name":"Custom Pie Chart" ,"types":"custompiechart","api": "${process.env.NEXT_PUBLIC_SERVERURL}/customPieChart/${fileName}"}`,
+    },
+  ];
+
+  const discoveryBlocks = [
+    {
+      title: "Petrinet",
+      description: "5 x 4",
+      data: `{"color":"#C71585","h":2,"w":7,"name":"Petrinet","api": "${process.env.NEXT_PUBLIC_SERVERURL}/uploads/petrinet/${fileName}","types":"image"}`,
+    },
+    {
+      title: "Table",
+      description: "8 x 4",
+      data: `{"color":"#C71585","h":4,"w":8,"name":"Table","api": "${process.env.NEXT_PUBLIC_SERVERURL}/getTable/${fileName}","types":"table"}`,
+    },
   ];
   const [layoutState, setLayout] = useState(layout1);
   const [layoutsState, setLayouts] = useState(layoutst);
@@ -92,7 +122,16 @@ export default function dashboardSlug() {
         credentials: "include",
         headers: myHeaders,
       })
-        .then((res) => res.json())
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            router.push(`/login`);
+
+            return { data: [] };
+          }
+        })
+
         .then((res) => {
           setLayout(() => res["data"]);
           setLayouts({
@@ -108,7 +147,6 @@ export default function dashboardSlug() {
 
   async function addAll() {
     let layoutnew = layoutState;
-    console.log("add all");
     const layoutItem = { x: 0, y: 0 };
     let i = 1;
     for (const element of statisticBlocks) {
@@ -132,7 +170,6 @@ export default function dashboardSlug() {
         }).then((res) => res.json());
       }
 
-      console.log(layoutnew);
       let newlayout = [];
       layoutnew.map((e) => {
         let temp = layouttemp.find((x) => x.i == e.i);
@@ -157,7 +194,6 @@ export default function dashboardSlug() {
           type: data.types,
         },
       ]);
-      console.log(layoutnew);
       setLayout(layoutnew);
 
       setLayouts({
@@ -281,20 +317,6 @@ export default function dashboardSlug() {
       ])
     );
 
-    console.log(
-      newlayout.concat([
-        {
-          i: String(count + 1),
-          x: layoutItem.x,
-          y: layoutItem.y,
-          w: data.w,
-          h: data.h,
-          name: data.name,
-          data: await response.data,
-          type: data.types,
-        },
-      ])
-    );
     setLayouts({
       lg: newlayout.concat([
         {
@@ -310,7 +332,7 @@ export default function dashboardSlug() {
       ]),
       md: newlayout.concat([
         {
-          i: String(newlayout.length + 1),
+          i: String(count + 1),
           x: layoutItem.x,
           y: layoutItem.y,
           w: data.w,
@@ -322,7 +344,7 @@ export default function dashboardSlug() {
       ]),
       sm: newlayout.concat([
         {
-          i: String(newlayout.length + 1),
+          i: String(count + 1),
           x: layoutItem.x,
           y: layoutItem.y,
           w: data.w,
@@ -334,7 +356,7 @@ export default function dashboardSlug() {
       ]),
       xs: newlayout.concat([
         {
-          i: String(newlayout.length + 1),
+          i: String(count + 1),
           x: layoutItem.x,
           y: layoutItem.y,
           w: data.w,
@@ -346,7 +368,7 @@ export default function dashboardSlug() {
       ]),
       xxs: newlayout.concat([
         {
-          i: String(newlayout.length + 1),
+          i: String(count + 1),
           x: layoutItem.x,
           y: layoutItem.y,
           w: data.w,
@@ -383,7 +405,7 @@ export default function dashboardSlug() {
       }),
     })
       .then((res) => res.json())
-      .then((res) => console.log(res));
+      .then((res) => res);
   };
 
   const onLayoutChange = async (layout, layouts) => {
@@ -465,12 +487,67 @@ export default function dashboardSlug() {
       .then((res) => res.json())
       .then((res) => console.log(res));
   }
+  function onDragStop(layout, oldItem, newItem, placeholder, e, element) {
+    let newlayout = newItem;
+    console.log(newlayout);
+    let news = layoutState.findIndex((x) => x.i == newlayout.i);
+    console.log(news);
+    layoutState[news].x = newlayout.x;
+    layoutState[news].y = newlayout.y;
+    layoutState[news].w = newlayout.w;
+    layoutState[news].h = newlayout.h;
+    setLayout([...layoutState]);
+    const did = Cookies.get("api_token");
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("api_token", did);
+    const file = fetch(`http://localhost/api/tiles/add/${pid}`, {
+      method: "POST",
+      credentials: "include",
+      headers: myHeaders,
+      body: JSON.stringify({ data: layoutState }),
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res));
+  }
+
+  function onResizeStop(layout, oldItem, newItem, placeholder, e, element) {
+    let newlayout = newItem;
+    console.log(newlayout);
+    let news = layoutState.findIndex((x) => x.i == newlayout.i);
+    console.log(news);
+    layoutState[news].x = newlayout.x;
+    layoutState[news].y = newlayout.y;
+    layoutState[news].w = newlayout.w;
+    layoutState[news].h = newlayout.h;
+    setLayout([...layoutState]);
+    const did = Cookies.get("api_token");
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("api_token", did);
+    const file = fetch(`http://localhost/api/tiles/add/${pid}`, {
+      method: "POST",
+      credentials: "include",
+      headers: myHeaders,
+      body: JSON.stringify({ data: layoutState }),
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res));
+  }
+
+  function onDrag(layout, oldItem, newItem, placeholder, e, element) {}
+
+  function onDragStart(layout, oldItem, newItem, placeholder, e, element) {}
 
   return (
     <>
       <DashboardLayout
         deleteAll={() => deleteAll()}
         delete={(value) => deleteT(value)}
+        type={(i) => layoutState.find((el) => el.i == i)}
+        index={index}
       >
         <ResponsiveGridLayout
           id="grid"
@@ -484,6 +561,10 @@ export default function dashboardSlug() {
           onDrop={onDrop}
           isDroppable={true}
           autoSize={true}
+          onDrag={onDrag}
+          onDragStart={onDragStart}
+          onDragStop={onDragStop}
+          onResizeStop={onResizeStop}
         >
           {layoutState.map((el) => {
             return (
