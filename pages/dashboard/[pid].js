@@ -565,10 +565,11 @@ export default function dashboardSlug() {
           onDragStart={onDragStart}
           onDragStop={onDragStop}
           onResizeStop={onResizeStop}
+          draggableCancel=".drag"
         >
           {layoutState.map((el) => {
             return (
-              <div className="bg-white shadow-md rounded-md" key={el.i}>
+              <div className="bg-white shadow-md rounded-md " key={el.i}>
                 <div className="border-b-1 p-4 rounded-t flex justify-between">
                   <div className="flex">
                     <img src="/eye.svg" />
@@ -580,7 +581,7 @@ export default function dashboardSlug() {
                     </button>
                   </div>
                 </div>
-                <>{tiles(el.type, el, addAll)}</>
+                <div className="drag">{tiles(el.type, el, addAll)}</div>
               </div>
             );
           })}

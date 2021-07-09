@@ -21,3 +21,12 @@ a {
 *::-webkit-scrollbar { 
   display: none; /* Chrome Safari */
 }
+
+.DraftEditor-root {
+  height: calc(100%- 8rem);
+  overflow: hidden;
+}
+
+h1 {
+  font-size: 10rem;
+}
