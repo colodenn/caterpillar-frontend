@@ -8,6 +8,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@editorjs/editorjs": "^2.22.1",
+    "@editorjs/paragraph": "^2.8.0",
     "@emotion/core": "^11.0.0",
     "@emotion/react": "^11.4.0",
     "@hapi/iron": "^6.0.0",
@@ -19,6 +21,7 @@
     "autoprefixer": "^10.2.4",
     "axios": "^0.21.1",
     "cookie-cutter": "^0.2.0",
+    "draft-convert": "^2.1.11",
     "draft-js": "^0.11.7",
     "draft-js-inline-toolbar-plugin": "^3.0.1",
     "draft-js-side-toolbar-plugin": "^3.0.2",
@@ -39,6 +42,7 @@
     "react-cookie": "^4.0.3",
     "react-cookies": "^0.1.1",
     "react-dom": "^17.0.1",
+    "react-editor-js": "^1.9.0",
     "react-flow-renderer": "^9.1.1",
     "react-grid-layout": "^1.2.2",
     "react-modal": "^3.13.1",

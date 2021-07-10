@@ -145,6 +145,27 @@ export default function dashboardSlug() {
     }
   }, [pid]);
 
+  function updateText(data, i) {
+    let news = layoutState.findIndex((x) => x.i == i);
+    layoutState[news].data = data;
+
+    setLayout(() => layoutState);
+
+    const did = Cookies.get("api_token");
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("api_token", did);
+    const file = fetch(`http://localhost/api/tiles/add/${pid}`, {
+      method: "POST",
+      credentials: "include",
+      headers: myHeaders,
+      body: JSON.stringify({ data: layoutState }),
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res));
+  }
+
   async function addAll() {
     let layoutnew = layoutState;
     const layoutItem = { x: 0, y: 0 };
@@ -581,7 +602,9 @@ export default function dashboardSlug() {
                     </button>
                   </div>
                 </div>
-                <div className="drag">{tiles(el.type, el, addAll)}</div>
+                <div className="drag">
+                  {tiles(el.type, el, addAll, updateText)}
+                </div>
               </div>
             );
           })}
