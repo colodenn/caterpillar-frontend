@@ -3,7 +3,8 @@ import Texteditor from "../components/tiles/texteditor";
 export default function Home() {
   return (
     <>
-      <div className="background h-screen overflow-hidden">
+      <div className="background h-screen w-screen ">
+        <h1>test</h1>
         <Piechart
           dat={[
             {

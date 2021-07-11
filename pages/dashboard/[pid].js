@@ -18,6 +18,7 @@ var layoutst = {
 let layouttemp = [];
 export default function dashboardSlug() {
   const [index, setIndex] = useState(0);
+  const [open, setOpen] = useState(false);
 
   function openSidebar(index) {
     if (typeof window !== "undefined") {
@@ -27,6 +28,7 @@ export default function dashboardSlug() {
       const closeButton = document.getElementById("closeButton");
       closeButton.value = index;
       setIndex(index);
+      setOpen(true);
     }
   }
   const router = useRouter();
@@ -413,7 +415,7 @@ export default function dashboardSlug() {
       body: JSON.stringify({
         data: layoutState.concat([
           {
-            i: String(layoutState.length + 1),
+            i: String(count + 1),
             x: layoutItem.x,
             y: layoutItem.y,
             w: data.w,
@@ -561,7 +563,6 @@ export default function dashboardSlug() {
   function onDrag(layout, oldItem, newItem, placeholder, e, element) {}
 
   function onDragStart(layout, oldItem, newItem, placeholder, e, element) {}
-
   return (
     <>
       <DashboardLayout
@@ -569,6 +570,7 @@ export default function dashboardSlug() {
         delete={(value) => deleteT(value)}
         type={(i) => layoutState.find((el) => el.i == i)}
         index={index}
+        close={(i) => setOpen(i)}
       >
         <ResponsiveGridLayout
           id="grid"
@@ -586,29 +588,46 @@ export default function dashboardSlug() {
           onDragStart={onDragStart}
           onDragStop={onDragStop}
           onResizeStop={onResizeStop}
-          draggableCancel=".drag"
+          draggableHandle=".drag"
         >
           {layoutState.map((el) => {
             return (
-              <div className="bg-white shadow-md rounded-md " key={el.i}>
-                <div className="border-b-1 p-4 rounded-t flex justify-between">
+              <div
+                className={
+                  el.i == index && open
+                    ? "bg-white shadow-md rounded-md border-blue-400 border-2"
+                    : "bg-white shadow-md rounded-md"
+                }
+                key={el.i}
+              >
+                <div className="border-b-1 p-4 rounded-t flex justify-between drag cursor-move">
                   <div className="flex">
                     <img src="/eye.svg" />
                     <p className="ml-2">{el.name}</p>
                   </div>
                   <div className="my-auto">
-                    <button onClick={() => openSidebar(el.i)}>
-                      <img className="" src="/3dot.svg" />
+                    <button
+                      className="focus:outline-none "
+                      onClick={() => openSidebar(el.i)}
+                    >
+                      <img className="focus:outline-none" src="/3dot.svg" />
                     </button>
                   </div>
                 </div>
-                <div className="drag">
+                <div
+                  style={{ height: "calc(100% - 3.5rem)" }}
+                  className="w-full"
+                >
                   {tiles(el.type, el, addAll, updateText)}
                 </div>
               </div>
             );
           })}
           <style jsx>{`
+            .height {
+              height: 200px;
+              width: 100%;
+            }
             .border-b-1 {
               border-bottom: 1px solid #e8e8ef;
             }

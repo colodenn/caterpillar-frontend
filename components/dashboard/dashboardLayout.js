@@ -127,6 +127,8 @@ const DashboardLayout = (props) => {
     if (typeof window !== "undefined") {
       const properties = document.getElementById("properties");
       properties.style.display = "none";
+      console.log("close sidebar");
+      props.close(false);
     }
   }
   function deleteButton(i) {
@@ -314,7 +316,7 @@ const DashboardLayout = (props) => {
                   {statisticBlocks.map((el) => {
                     return JSON.parse(el.data)
                       .name.toLowerCase()
-                      .includes(searchTerm) ? (
+                      .includes(searchTerm.toLowerCase()) ? (
                       <div
                         key={el.title}
                         className="hover:shadow rounded p-5 flex cursor-pointer droppable-element "
@@ -414,6 +416,7 @@ const DashboardLayout = (props) => {
             index={index}
             deleteButton={deleteButton}
             type={(i) => getType(i)}
+            close={() => closeSidebar()}
           />
         </div>
       </div>

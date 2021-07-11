@@ -1,6 +1,6 @@
 const Datatable = (props) => {
   return (
-    <div>
+    <div className="overflow-y-scroll h-full">
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
           <tr>

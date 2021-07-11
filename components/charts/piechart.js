@@ -7,42 +7,10 @@ const Piechart = (props) => {
     return <h1>loading</h1>;
   } else {
     return (
-      <div>
-        <h1>test</h1>
+      <div className="height">
         <ResponsivePie
-          data={[
-            {
-              id: "ruby",
-              label: "ruby",
-              value: 426,
-              color: "hsl(80, 70%, 50%)",
-            },
-            {
-              id: "stylus",
-              label: "stylus",
-              value: 116,
-              color: "hsl(45, 70%, 50%)",
-            },
-            {
-              id: "elixir",
-              label: "elixir",
-              value: 374,
-              color: "hsl(36, 70%, 50%)",
-            },
-            {
-              id: "go",
-              label: "go",
-              value: 79,
-              color: "hsl(99, 70%, 50%)",
-            },
-            {
-              id: "make",
-              label: "make",
-              value: 405,
-              color: "hsl(70, 70%, 50%)",
-            },
-          ]}
-          margin={{ top: 40, right: 90, bottom: 160, left: 90 }}
+          data={props.dat}
+          margin={{ top: 40, right: 90, bottom: 40, left: 90 }}
           innerRadius={0.5}
           padAngle={0.7}
           cornerRadius={3}
@@ -126,6 +94,26 @@ const Piechart = (props) => {
           ]}
           legends={[]}
         />
+        <style jsx>{`
+          .height {
+            height: calc(100%);
+            width: calc(100%);
+          }
+          .border-b-1 {
+            border-bottom: 1px solid #e8e8ef;
+          }
+
+          .border-r-1 {
+            border-right: 1px solid #e8e8ef;
+          }
+
+          .backgroundTile {
+            background-image: url("/tile.png");
+            background-repeat: repeat;
+            background-size: 30px 30px;
+            background-color: #fbfbfb;
+          }
+        `}</style>
       </div>
     );
   }

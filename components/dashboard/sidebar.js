@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PieDropdown from "../tiles/PieDropdown";
 
-function closeSidebar() {
-  if (typeof window !== "undefined") {
-    const properties = document.getElementById("properties");
-    properties.style.display = "none";
-  }
-}
-
 const Sidebar = (props) => {
   const [index, setIndex] = useState(0);
   const [type, setType] = useState("");
@@ -29,7 +22,7 @@ const Sidebar = (props) => {
             <h1 className="font-medium text-2xl mb-4 mt-2">Properties</h1>
           </div>
           <div className="my-auto">
-            <button onClick={() => closeSidebar()}>
+            <button onClick={() => props.close()}>
               <img className="transform " src="/close.svg" />
             </button>
           </div>
