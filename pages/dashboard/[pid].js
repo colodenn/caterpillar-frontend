@@ -603,11 +603,11 @@ export default function dashboardSlug() {
                 <div className="border-b-1 p-4 rounded-t flex justify-between drag cursor-move">
                   <div className="flex">
                     <img src="/eye.svg" />
-                    <p className="ml-2">{el.name}</p>
+                    <p className="my-auto ml-2">{el.name}</p>
                   </div>
                   <div className="my-auto">
                     <button
-                      className="focus:outline-none "
+                      className="focus:outline-none hover:bg-blue-400 hover:bg-opacity-25 px-2 py-4 rounded "
                       onClick={() => openSidebar(el.i)}
                     >
                       <img className="focus:outline-none" src="/3dot.svg" />
@@ -624,6 +624,10 @@ export default function dashboardSlug() {
             );
           })}
           <style jsx>{`
+            .newshadow {
+              box-shadow: 0px 4px 30px rgb(22 33 74 / 5%);
+              border: 1px solid #e3e9f3;
+            }
             .height {
               height: 200px;
               width: 100%;

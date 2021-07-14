@@ -121,7 +121,13 @@ const DashboardLayout = (props) => {
     },
   ];
 
-  const algorithmBlocks = [];
+  const algorithmBlocks = [
+    {
+      title: "Compliance",
+      description: "8 x 4",
+      data: `{"color":"#C71585","h":4,"w":8,"name":"Compliance","api": "${process.env.NEXT_PUBLIC_SERVERURL}/compliance/${fileName}","types":"compliance"}`,
+    },
+  ];
 
   function closeSidebar() {
     if (typeof window !== "undefined") {
@@ -226,7 +232,7 @@ const DashboardLayout = (props) => {
                 style={customStyles}
                 contentLabel="Example Modal"
               >
-                <div className="p-8">
+                {/* <div className="p-8">
                   <div className="flex">
                     <div className="mr-8">
                       <Pdf
@@ -261,6 +267,37 @@ const DashboardLayout = (props) => {
                       {`${process.env.NEXT_PUBLIC_URL}/share/` + shareLink}
                     </a>
                   </div>
+                </div> */}
+                <div>
+                  <div className="flex justify-end">
+                    <button className="p-2">
+                      <img className="" src="/close.svg" />
+                    </button>
+                  </div>
+                  <div>
+                    <h1 className="text-2xl font-semibold">
+                      Share your dashboard
+                    </h1>
+                    <Tabs>
+                      <TabList className="border-b-2 flex">
+                        <Tab className="border">Share link</Tab>
+                        <Tab className="border">Export pdf</Tab>
+                        <Tab className="border">Export code</Tab>
+                      </TabList>
+                      <TabPanel>
+                        <h3>Start sharing your dashboard</h3>
+                        <div className="flex">
+                          <input value="https://codenn.de/sr915nasfk" />
+                          <button className="bg-blue-400 px-2 py-4 rounded">
+                            Copy
+                          </button>
+                        </div>
+                        <a href="#">Preview link in new tab</a>
+                      </TabPanel>
+                      <TabPanel>2</TabPanel>
+                      <TabPanel>2</TabPanel>
+                    </Tabs>
+                  </div>
                 </div>
               </Modal>
             </div>
@@ -270,14 +307,14 @@ const DashboardLayout = (props) => {
           <aside className="mt-0 fixed bg-white w-96 border-r-1 h-screen">
             <div className="">
               <div className="block">
-                <div className="px-4 py-2">
+                <div className="px-4 py-2 first-step">
                   <h2 className="font-medium text-2xl mb-4 mt-2">Blocks</h2>
                   <img src="/search.svg" className="absolute ml-2 mt-5"></img>
                   <input
                     onChange={handleChange}
                     value={searchTerm}
                     type="text"
-                    className=" h-10 w-full mt-2  rounded align-middle"
+                    className=" h-10 w-full mt-2  rounded align-middle focus:outline-none"
                     style={{
                       textIndent: "28px",
                       border: "1px solid #E8E8EF",

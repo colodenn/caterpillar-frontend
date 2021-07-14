@@ -13,7 +13,7 @@ const Sidebar = (props) => {
   return (
     <aside
       id="properties"
-      className="mt-0 right-0 fixed bg-white w-96 border-r-1 h-screen hidden"
+      className="mt-0 right-0 fixed bg-white w-96 border-r-1 h-screen hidden test"
       value="test"
     >
       <div className="px-8 py-2 h-full">
@@ -41,6 +41,10 @@ const Sidebar = (props) => {
           </div>
         </div>
       </div>
+      <style jsx>{`
+        .test {
+        }
+      `}</style>
     </aside>
   );
 };
