@@ -31,6 +31,8 @@ const DashboardLayout = (props) => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [shareLink, setShareLink] = useState("");
   function openModal() {
+    getLink();
+
     setIsOpen(true);
   }
   const [index, setIndex] = useState(0);
@@ -41,6 +43,7 @@ const DashboardLayout = (props) => {
   function afterOpenModal() {}
 
   function closeModal() {
+    setCopied(false);
     setIsOpen(false);
   }
   const fileName = router.query.pid;
@@ -178,6 +181,8 @@ const DashboardLayout = (props) => {
       });
   }
 
+  const [copied, setCopied] = useState(false);
+
   return (
     <>
       <div className="h-screen disableScroll overflow-hidden ">
@@ -221,7 +226,7 @@ const DashboardLayout = (props) => {
               <span className="mr-2 ml-2"></span>
               <button
                 onClick={openModal}
-                className="bg-blue-500 hover:bg-blue-400 rounded px-4 py-2 text-sm text-white font-medium "
+                className="bg-blue-500 hover:bg-blue-400 rounded px-4 py-2 text-sm text-white font-medium focus:outline-none"
               >
                 Publish & export
               </button>
@@ -230,72 +235,108 @@ const DashboardLayout = (props) => {
                 onAfterOpen={afterOpenModal}
                 onRequestClose={closeModal}
                 style={customStyles}
+                className=""
                 contentLabel="Example Modal"
               >
-                {/* <div className="p-8">
-                  <div className="flex">
-                    <div className="mr-8">
-                      <Pdf
-                        targetRef={ref}
-                        options={options}
-                        scale={2}
-                        filename="code-example.pdf"
-                      >
-                        {({ toPdf }) => (
-                          <button
-                            onClick={toPdf}
-                            className="bg-blue-500 hover:bg-blue-400 rounded px-4 py-2 text-sm text-white font-medium "
-                          >
-                            Export
-                          </button>
-                        )}
-                      </Pdf>
-                    </div>
-                    <div className="">
-                      <button
-                        onClick={() => getLink()}
-                        className="bg-blue-500 hover:bg-blue-400 rounded px-4 py-2 text-sm text-white font-medium "
-                      >
-                        Share
-                      </button>
-                    </div>
-                  </div>
-                  <div>
-                    <a
-                      href={`${process.env.NEXT_PUBLIC_URL}/share/` + shareLink}
-                    >
-                      {`${process.env.NEXT_PUBLIC_URL}/share/` + shareLink}
-                    </a>
-                  </div>
-                </div> */}
-                <div>
+                <div className="p-6 ">
                   <div className="flex justify-end">
-                    <button className="p-2">
+                    <button
+                      onClick={() => closeModal()}
+                      className="p-2 focus:outline-none"
+                    >
                       <img className="" src="/close.svg" />
                     </button>
                   </div>
                   <div>
-                    <h1 className="text-2xl font-semibold">
+                    <h1 className="text-3xl mb-2  py-8 font-bold">
                       Share your dashboard
                     </h1>
                     <Tabs>
-                      <TabList className="border-b-2 flex">
-                        <Tab className="border">Share link</Tab>
-                        <Tab className="border">Export pdf</Tab>
-                        <Tab className="border">Export code</Tab>
+                      <TabList className="font-semibold border-b-4  flex ">
+                        <Tab className="mr-8 py-4 px-2 border-b-4">
+                          Share link
+                        </Tab>
+                        <Tab className="mr-8 py-4 px-2 border-b-4">
+                          Export pdf
+                        </Tab>
+                        <Tab className="mr-8 py-4 px-2 border-b-4">
+                          Export code
+                        </Tab>
                       </TabList>
+                      <TabPanel className="mt-8">
+                        <h3 className="font-semibold mb-8">
+                          Start sharing your dashboard
+                        </h3>
+                        <div className="flex mb-4 w-full">
+                          <input
+                            readonly
+                            value={
+                              `${process.env.NEXT_PUBLIC_URL}/share/` +
+                              shareLink
+                            }
+                            className="focus:outline-none  mr-4 border-2 rounded w-full px-8 text-gray-400 font-semibold"
+                          />
+                          <div>
+                            {!copied ? (
+                              <button
+                                onClick={() => {
+                                  navigator.clipboard.writeText(
+                                    `${process.env.NEXT_PUBLIC_URL}/share/` +
+                                      shareLink
+                                  );
+                                  setCopied(true);
+                                }}
+                                className="focus:outline-none hover:bg-gray-600 bg-gray-800 text-white  font-thin px-6 py-4 rounded"
+                              >
+                                Copy
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() =>
+                                  navigator.clipboard.writeText(
+                                    `${process.env.NEXT_PUBLIC_URL}/share/` +
+                                      shareLink
+                                  )
+                                }
+                                className="focus:outline-none hover:bg-blue-300 bg-blue-400 text-white  font-thin px-6 py-4 rounded"
+                              >
+                                Copied
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                        <a
+                          className="font-semibold underline mb-8 "
+                          href={
+                            `${process.env.NEXT_PUBLIC_URL}/share/` + shareLink
+                          }
+                        >
+                          Preview link in new tab
+                        </a>
+                      </TabPanel>
                       <TabPanel>
-                        <h3>Start sharing your dashboard</h3>
-                        <div className="flex">
-                          <input value="https://codenn.de/sr915nasfk" />
-                          <button className="bg-blue-400 px-2 py-4 rounded">
-                            Copy
+                        <h3 className="font-semibold text-2xl mb-8">
+                          Export pdf
+                        </h3>
+                        <div className="flex mb-4 w-full">
+                          <button className="mr-8 bg-gray-800 px-4 py-4 rounded text-white hover:bg-gray-600">
+                            Export pdf
+                          </button>
+                          <button className=" bg-gray-800 px-4 py-4 rounded text-white hover:bg-gray-600">
+                            Export LateX
                           </button>
                         </div>
-                        <a href="#">Preview link in new tab</a>
                       </TabPanel>
-                      <TabPanel>2</TabPanel>
-                      <TabPanel>2</TabPanel>
+                      <TabPanel>
+                        <h3 className="font-semibold text-2xl mb-8">
+                          Export code
+                        </h3>
+                        <div className="flex mb-4 w-full">
+                          <button className="mr-8 bg-gray-800 px-4 py-4 rounded text-white hover:bg-gray-600">
+                            Export python
+                          </button>
+                        </div>
+                      </TabPanel>
                     </Tabs>
                   </div>
                 </div>

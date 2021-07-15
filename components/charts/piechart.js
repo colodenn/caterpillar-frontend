@@ -14,7 +14,7 @@ const Piechart = (props) => {
           innerRadius={0.5}
           padAngle={0.7}
           cornerRadius={3}
-          colors={{ scheme: "nivo" }}
+          colors={{ scheme: "set2" }}
           borderWidth={1}
           borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
           radialLabelsSkipAngle={10}

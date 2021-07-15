@@ -293,7 +293,14 @@ export default function dashboardSlug() {
       headers: myHeaders,
       body: JSON.stringify({ data: layoutnew }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          router.push(`/login`);
+          return { files: [] };
+        }
+      })
       .then((res) => console.log(res));
   }
 
@@ -486,7 +493,14 @@ export default function dashboardSlug() {
         body: JSON.stringify({ data: [] }),
       }
     )
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          router.push(`/login`);
+          return { files: [] };
+        }
+      })
       .then((res) => console.log(res));
   }
 
@@ -507,7 +521,14 @@ export default function dashboardSlug() {
         body: JSON.stringify({ data: newLayout }),
       }
     )
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          router.push(`/login`);
+          return { files: [] };
+        }
+      })
       .then((res) => console.log(res));
   }
   function onDragStop(layout, oldItem, newItem, placeholder, e, element) {
@@ -531,7 +552,14 @@ export default function dashboardSlug() {
       headers: myHeaders,
       body: JSON.stringify({ data: layoutState }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          router.push(`/login`);
+          return { files: [] };
+        }
+      })
       .then((res) => console.log(res));
   }
 
@@ -556,7 +584,14 @@ export default function dashboardSlug() {
       headers: myHeaders,
       body: JSON.stringify({ data: layoutState }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          router.push(`/login`);
+          return { files: [] };
+        }
+      })
       .then((res) => console.log(res));
   }
 
@@ -601,9 +636,11 @@ export default function dashboardSlug() {
                 key={el.i}
               >
                 <div className="border-b-1 p-4 rounded-t flex justify-between drag cursor-move">
-                  <div className="flex">
-                    <img src="/eye.svg" />
-                    <p className="my-auto ml-2">{el.name}</p>
+                  <div className="flex w-full">
+                    <img src="/eyeblue.svg" />
+                    <p className="my-auto ml-2 overflow-hidden overflow-ellipsis whitespace-nowrap">
+                      {el.name}
+                    </p>
                   </div>
                   <div className="my-auto">
                     <button
