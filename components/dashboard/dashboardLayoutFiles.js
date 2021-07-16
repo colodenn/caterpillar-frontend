@@ -22,7 +22,7 @@ const DashboardLayoutFile = (props) => {
                 onChange={handleChange}
                 value={searchTerm}
                 type="text"
-                className=" h-10 w-full mt-2  rounded align-middle"
+                className=" h-10 w-full mt-2  rounded align-middle focus:outline-none"
                 style={{
                   textIndent: "28px",
                   border: "1px solid #E8E8EF",

@@ -637,7 +637,7 @@ export default function dashboardSlug() {
               >
                 <div className="border-b-1 p-4 rounded-t flex justify-between drag cursor-move">
                   <div className="flex w-full">
-                    <img src="/eyeblue.svg" />
+                    <img src="/eye.svg" />
                     <p className="my-auto ml-2 overflow-hidden overflow-ellipsis whitespace-nowrap">
                       {el.name}
                     </p>
