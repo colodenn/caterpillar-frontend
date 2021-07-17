@@ -219,7 +219,7 @@ const DashboardLayout = (props) => {
             <div>
               <button
                 onClick={() => deleteAll()}
-                className="border  rounded px-2 py-2 text-gray-400  text-sm hover:text-gray-300 hover:border-gray-100 font-medium "
+                className="border  focus:outline-none rounded px-2 py-2 text-gray-400  text-sm hover:text-gray-300 hover:border-gray-100 font-medium "
               >
                 Discard
               </button>
