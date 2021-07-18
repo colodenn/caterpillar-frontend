@@ -119,11 +119,14 @@ export default function dashboardSlug() {
     var myHeaders = new Headers();
     myHeaders.append("api_token", did);
     if (typeof pid !== "undefined") {
-      const file = fetch(`http://localhost/api/tiles/${pid}`, {
-        method: "GET",
-        credentials: "include",
-        headers: myHeaders,
-      })
+      const file = fetch(
+        `${process.env.NEXT_PUBLIC_SERVERURL}/api/tiles/${pid}`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: myHeaders,
+        }
+      )
         .then((res) => {
           if (res.ok) {
             return res.json();
@@ -158,12 +161,15 @@ export default function dashboardSlug() {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("api_token", did);
-    const file = fetch(`http://localhost/api/tiles/add/${pid}`, {
-      method: "POST",
-      credentials: "include",
-      headers: myHeaders,
-      body: JSON.stringify({ data: layoutState }),
-    })
+    const file = fetch(
+      `${process.env.NEXT_PUBLIC_SERVERURL}/api/tiles/add/${pid}`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: myHeaders,
+        body: JSON.stringify({ data: layoutState }),
+      }
+    )
       .then((res) => res.json())
       .then((res) => console.log(res));
   }
@@ -286,13 +292,16 @@ export default function dashboardSlug() {
     var myHeaders = new Headers();
     myHeaders.append("api_token", did);
     myHeaders.append("Content-Type", "application/json");
-    const file = fetch(`http://localhost/api/tiles/add/${pid}`, {
-      method: "POST",
-      credentials: "include",
+    const file = fetch(
+      `${process.env.NEXT_PUBLIC_SERVERURL}/api/tiles/add/${pid}`,
+      {
+        method: "POST",
+        credentials: "include",
 
-      headers: myHeaders,
-      body: JSON.stringify({ data: layoutnew }),
-    })
+        headers: myHeaders,
+        body: JSON.stringify({ data: layoutnew }),
+      }
+    )
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -414,26 +423,29 @@ export default function dashboardSlug() {
     myHeaders.append("api_token", did);
     myHeaders.append("Content-Type", "application/json");
     // send layoutState and layoutsState and Store on mongodb
-    const file = fetch(`http://localhost/api/tiles/add/${pid}`, {
-      method: "POST",
-      credentials: "include",
+    const file = fetch(
+      `${process.env.NEXT_PUBLIC_SERVERURL}/api/tiles/add/${pid}`,
+      {
+        method: "POST",
+        credentials: "include",
 
-      headers: myHeaders,
-      body: JSON.stringify({
-        data: layoutState.concat([
-          {
-            i: String(count + 1),
-            x: layoutItem.x,
-            y: layoutItem.y,
-            w: data.w,
-            h: data.h,
-            name: data.name,
-            data: await response.data,
-            type: data.types,
-          },
-        ]),
-      }),
-    })
+        headers: myHeaders,
+        body: JSON.stringify({
+          data: layoutState.concat([
+            {
+              i: String(count + 1),
+              x: layoutItem.x,
+              y: layoutItem.y,
+              w: data.w,
+              h: data.h,
+              name: data.name,
+              data: await response.data,
+              type: data.types,
+            },
+          ]),
+        }),
+      }
+    )
       .then((res) => res.json())
       .then((res) => res);
   };
@@ -546,12 +558,15 @@ export default function dashboardSlug() {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("api_token", did);
-    const file = fetch(`http://localhost/api/tiles/add/${pid}`, {
-      method: "POST",
-      credentials: "include",
-      headers: myHeaders,
-      body: JSON.stringify({ data: layoutState }),
-    })
+    const file = fetch(
+      `${process.env.NEXT_PUBLIC_SERVERURL}/api/tiles/add/${pid}`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: myHeaders,
+        body: JSON.stringify({ data: layoutState }),
+      }
+    )
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -578,12 +593,15 @@ export default function dashboardSlug() {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("api_token", did);
-    const file = fetch(`http://localhost/api/tiles/add/${pid}`, {
-      method: "POST",
-      credentials: "include",
-      headers: myHeaders,
-      body: JSON.stringify({ data: layoutState }),
-    })
+    const file = fetch(
+      `${process.env.NEXT_PUBLIC_SERVERURL}/api/tiles/add/${pid}`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: myHeaders,
+        body: JSON.stringify({ data: layoutState }),
+      }
+    )
       .then((res) => {
         if (res.ok) {
           return res.json();
