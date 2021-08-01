@@ -1,4 +1,4 @@
-#**Abstract**
+###**Abstract**
 The tool we are developing should be able to analyze logs automatically and display this visually on a web page. The analyses can be exported as PDF afterwards, additionally the used Python code is provided for further processing.
 With our tool a quick analysis of a data set is possible to get an insight into the data without the user having specific IT and programming knowledge.
 
