@@ -31,6 +31,10 @@ export default function Login() {
             path: "/",
             maxAge: 604800,
           });
+          cookies.set("public_address", json.public_address, {
+            path: "/",
+            maxAge: 604800,
+          });
           setSpinner(false);
           router.push("/dashboard");
         });

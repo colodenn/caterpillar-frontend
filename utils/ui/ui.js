@@ -6,7 +6,7 @@ import Datatable from "../../components/tiles/datatable";
 import Piechart from "../../components/charts/piechart";
 import PieDropdown from "../../components/tiles/PieDropdown";
 import Textarea from "../../components/tiles/texteditor";
-
+import Calendar from "../../components/tiles/calendar";
 export function tiles(exp, el, addAll, updateText) {
   var html = <h1>test</h1>;
   switch (exp) {
@@ -41,6 +41,10 @@ export function tiles(exp, el, addAll, updateText) {
 
     case "table":
       html = <Datatable rows={el.data} header={el.data[0]} />;
+      break;
+
+    case "Calendar":
+      html = <Calendar data={el.data} />;
       break;
     default:
       html = (

@@ -1,8 +1,14 @@
 const Timestamp = (props) => {
   return (
-    <div>
-      <p>Start: {props.start}</p>
-      <p>End: {props.end}</p>
+    <div className="flex my-auto mx-auto justify-center items-center">
+      <div>
+        <p className="text-lg font-normal">
+          <span className="font-medium">Start:</span> {props.start}
+        </p>
+        <p className="text-lg font-normal">
+          <span className="font-medium">End:</span> {props.end}
+        </p>
+      </div>
     </div>
   );
 };

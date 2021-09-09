@@ -3,11 +3,12 @@ import Link from "next/link";
 import "react-tabs/style/react-tabs.css";
 import { useRouter } from "next/router";
 import Modal from "react-modal";
-import Cookies from "js-cookie";
+import Cookies, { set } from "js-cookie";
 import React, { useState, useEffect } from "react";
 import Pdf from "react-to-pdf";
 
 import Sidebar from "../../components/dashboard/sidebar";
+import { redirect } from "next/dist/next-server/server/api-utils";
 const options = {
   orientation: "landscape",
   unit: "in",
@@ -28,6 +29,7 @@ const customStyles = {
 const DashboardLayout = (props) => {
   const router = useRouter();
   const { pid } = router.query;
+  const [exports, setExport] = useState(false);
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [shareLink, setShareLink] = useState("");
   function openModal() {
@@ -45,6 +47,11 @@ const DashboardLayout = (props) => {
   function closeModal() {
     setCopied(false);
     setIsOpen(false);
+  }
+  function exportPDF() {
+    setExport(true);
+
+    window.open(`http://localhost/api/pdf/${fileName}`, "_blank").focus();
   }
   const fileName = router.query.pid;
   const [searchTerm, setSearchTerm] = useState("");
@@ -65,9 +72,9 @@ const DashboardLayout = (props) => {
       data: `{"color":"#C71585","h":1,"w":1,"name":"Unique Activites Count","types":"number","api":"${process.env.NEXT_PUBLIC_SERVERURL}/uniqueActivitiesCount/${fileName}"}`,
     },
     {
-      title: "Aktivity Pie Chart",
+      title: "Activity Pie Chart",
       description: "4 x 3",
-      data: `{"color":"#C71585","h":3,"w":4,"name":"Aktivity Pie Chart","types":"piechart","api": "${process.env.NEXT_PUBLIC_SERVERURL}/activitesArray/${fileName}"}`,
+      data: `{"color":"#C71585","h":3,"w":4,"name":"Activity Pie Chart","types":"piechart","api": "${process.env.NEXT_PUBLIC_SERVERURL}/activitesArray/${fileName}"}`,
     },
     {
       title: "Median Throughputtime",
@@ -108,6 +115,12 @@ const DashboardLayout = (props) => {
       title: "Custom Piechart",
       description: "4 x 3",
       data: `{"color":"#C71585","h":3,"w":4,"name":"Custom Pie Chart" ,"types":"custompiechart","api": "${process.env.NEXT_PUBLIC_SERVERURL}/customPieChart/${fileName}"}`,
+    },
+
+    {
+      title: "Calendar",
+      description: "4 x 3",
+      data: `{"color":"#C71585","h":3,"w":4,"name":"Calendar","types":"Calendar","api": "${process.env.NEXT_PUBLIC_SERVERURL}/Calendar/${fileName}"}`,
     },
   ];
 
@@ -319,11 +332,11 @@ const DashboardLayout = (props) => {
                           Export pdf
                         </h3>
                         <div className="flex mb-4 w-full">
-                          <button className="mr-8 bg-gray-800 px-4 py-4 rounded text-white hover:bg-gray-600">
-                            Export pdf
-                          </button>
-                          <button className=" bg-gray-800 px-4 py-4 rounded text-white hover:bg-gray-600">
-                            Export LateX
+                          <button
+                            onClick={() => exportPDF()}
+                            className="mr-8 bg-gray-800 px-4 py-4 rounded text-white hover:bg-gray-600"
+                          >
+                            {exports ? "Exporting..." : "Export"}
                           </button>
                         </div>
                       </TabPanel>

@@ -96,6 +96,11 @@ export default function dashboardSlug() {
       description: "4 x 3",
       data: `{"color":"#C71585","h":3,"w":4,"name":"Custom Pie Chart" ,"types":"custompiechart","api": "${process.env.NEXT_PUBLIC_SERVERURL}/customPieChart/${fileName}"}`,
     },
+    {
+      title: "Calendar",
+      description: "4 x 3",
+      data: `{"color":"#C71585","h":3,"w":4,"name":"Calendar","types":"Calendar","api": "${process.env.NEXT_PUBLIC_SERVERURL}/Calendar/${fileName}"}`,
+    },
   ];
 
   const discoveryBlocks = [
@@ -119,14 +124,11 @@ export default function dashboardSlug() {
     var myHeaders = new Headers();
     myHeaders.append("api_token", did);
     if (typeof pid !== "undefined") {
-      const file = fetch(
-        `${process.env.NEXT_PUBLIC_SERVERURL}/api/tiles/${pid}`,
-        {
-          method: "GET",
-          credentials: "include",
-          headers: myHeaders,
-        }
-      )
+      const file = fetch(`${process.env.NEXT_PUBLIC_SERVERURL}/tiles/${pid}`, {
+        method: "GET",
+        credentials: "include",
+        headers: myHeaders,
+      })
         .then((res) => {
           if (res.ok) {
             return res.json();
@@ -162,16 +164,14 @@ export default function dashboardSlug() {
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("api_token", did);
     const file = fetch(
-      `${process.env.NEXT_PUBLIC_SERVERURL}/api/tiles/add/${pid}`,
+      `${process.env.NEXT_PUBLIC_SERVERURL}/tiles/add/${pid}`,
       {
         method: "POST",
         credentials: "include",
         headers: myHeaders,
         body: JSON.stringify({ data: layoutState }),
       }
-    )
-      .then((res) => res.json())
-      .then((res) => console.log(res));
+    ).then((res) => res.json());
   }
 
   async function addAll() {
@@ -293,7 +293,7 @@ export default function dashboardSlug() {
     myHeaders.append("api_token", did);
     myHeaders.append("Content-Type", "application/json");
     const file = fetch(
-      `${process.env.NEXT_PUBLIC_SERVERURL}/api/tiles/add/${pid}`,
+      `${process.env.NEXT_PUBLIC_SERVERURL}/tiles/add/${pid}`,
       {
         method: "POST",
         credentials: "include",
@@ -301,16 +301,14 @@ export default function dashboardSlug() {
         headers: myHeaders,
         body: JSON.stringify({ data: layoutnew }),
       }
-    )
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          router.push(`/login`);
-          return { files: [] };
-        }
-      })
-      .then((res) => console.log(res));
+    ).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        router.push(`/login`);
+        return { files: [] };
+      }
+    });
   }
 
   const onDrop = async (layout, layoutItem, _event) => {
@@ -424,7 +422,7 @@ export default function dashboardSlug() {
     myHeaders.append("Content-Type", "application/json");
     // send layoutState and layoutsState and Store on mongodb
     const file = fetch(
-      `${process.env.NEXT_PUBLIC_SERVERURL}/api/tiles/add/${pid}`,
+      `${process.env.NEXT_PUBLIC_SERVERURL}/tiles/add/${pid}`,
       {
         method: "POST",
         credentials: "include",
@@ -504,16 +502,14 @@ export default function dashboardSlug() {
         headers: myHeaders,
         body: JSON.stringify({ data: [] }),
       }
-    )
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          router.push(`/login`);
-          return { files: [] };
-        }
-      })
-      .then((res) => console.log(res));
+    ).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        router.push(`/login`);
+        return { files: [] };
+      }
+    });
   }
 
   async function deleteT(i) {
@@ -532,22 +528,18 @@ export default function dashboardSlug() {
         headers: myHeaders,
         body: JSON.stringify({ data: newLayout }),
       }
-    )
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          router.push(`/login`);
-          return { files: [] };
-        }
-      })
-      .then((res) => console.log(res));
+    ).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        router.push(`/login`);
+        return { files: [] };
+      }
+    });
   }
   function onDragStop(layout, oldItem, newItem, placeholder, e, element) {
     let newlayout = newItem;
-    console.log(newlayout);
     let news = layoutState.findIndex((x) => x.i == newlayout.i);
-    console.log(news);
     layoutState[news].x = newlayout.x;
     layoutState[news].y = newlayout.y;
     layoutState[news].w = newlayout.w;
@@ -559,30 +551,26 @@ export default function dashboardSlug() {
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("api_token", did);
     const file = fetch(
-      `${process.env.NEXT_PUBLIC_SERVERURL}/api/tiles/add/${pid}`,
+      `${process.env.NEXT_PUBLIC_SERVERURL}/tiles/add/${pid}`,
       {
         method: "POST",
         credentials: "include",
         headers: myHeaders,
         body: JSON.stringify({ data: layoutState }),
       }
-    )
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          router.push(`/login`);
-          return { files: [] };
-        }
-      })
-      .then((res) => console.log(res));
+    ).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        // router.push(`/login`);
+        return { files: [] };
+      }
+    });
   }
 
   function onResizeStop(layout, oldItem, newItem, placeholder, e, element) {
     let newlayout = newItem;
-    console.log(newlayout);
     let news = layoutState.findIndex((x) => x.i == newlayout.i);
-    console.log(news);
     layoutState[news].x = newlayout.x;
     layoutState[news].y = newlayout.y;
     layoutState[news].w = newlayout.w;
@@ -594,23 +582,21 @@ export default function dashboardSlug() {
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("api_token", did);
     const file = fetch(
-      `${process.env.NEXT_PUBLIC_SERVERURL}/api/tiles/add/${pid}`,
+      `${process.env.NEXT_PUBLIC_SERVERURL}/tiles/add/${pid}`,
       {
         method: "POST",
         credentials: "include",
         headers: myHeaders,
         body: JSON.stringify({ data: layoutState }),
       }
-    )
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          router.push(`/login`);
-          return { files: [] };
-        }
-      })
-      .then((res) => console.log(res));
+    ).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        router.push(`/login`);
+        return { files: [] };
+      }
+    });
   }
 
   function onDrag(layout, oldItem, newItem, placeholder, e, element) {}
@@ -661,7 +647,7 @@ export default function dashboardSlug() {
                       {el.name}
                     </p>
                   </div>
-                  <div className="my-auto">
+                  <div className="my-auto ">
                     <button
                       className="focus:outline-none hover:bg-blue-400 hover:bg-opacity-25 px-2 py-4 rounded "
                       onClick={() => openSidebar(el.i)}

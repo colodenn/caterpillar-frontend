@@ -1,5 +1,7 @@
 import Upload from "./upload";
 import { useState } from "react";
+import dynamic from "next/dynamic";
+const Avatar = dynamic(() => import("../avatar/avatar"), { ssr: false });
 
 const DashboardLayoutFile = (props) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -32,14 +34,11 @@ const DashboardLayoutFile = (props) => {
               />
             </div>
             <div className="flex">
-              <div className="rounded-full w-12 h-12 mr-8">
-                <img src="/cat.png" className="rounded-full" />
+              <div className="rounded-full w-12 h-12 mr-8 flex items-center my-auto">
+                <Avatar />
               </div>
-              <div className="my-auto">
-                <img
-                  src="/bell.svg"
-                  style={{ transform: "translate(-50%,-50%)" }}
-                />
+              <div className="my-auto items-center flex">
+                <img src="/bell.svg" className="my-auto items-center" />
               </div>
             </div>
           </div>

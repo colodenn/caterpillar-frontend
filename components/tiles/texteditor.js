@@ -30,7 +30,7 @@ function Textarea(props) {
   ].concat(BLOCK_BUTTONS);
   return (
     <>
-      <div className="height px-2 ">
+      <div className="height px-2  ">
         <Editor
           blockButtons={blockButtons}
           sideButtons={[]}

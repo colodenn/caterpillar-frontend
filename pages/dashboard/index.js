@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
+import Avatar from "../../components/avatar/avatar";
 function deleteFile(e) {
   const did = Cookies.get("api_token");
   var myHeaders = new Headers();
@@ -83,25 +83,42 @@ export default function dashboard() {
                 key={el.name}
                 className=" cursor-pointer  mb-4 rounded shadow-md rounded-md p-4 bg-white"
               >
-                <div className="flex justify-between">
+                <div className="flex justify-between w-full">
                   <Link href={"/dashboard/" + el.name}>
-                    <div className="flex">
+                    <div className="flex w-full">
                       <img src="/file.svg" />
-                      <p className="ml-4 my-auto">{el.name}</p>
+                      <p className="ml-4 my-auto w-full">{el.name}</p>
                     </div>
                   </Link>
-                  <div className="flex">
+                  <div className="flex items-center">
                     <p className="my-auto">{el.date}</p>
                   </div>
-                  <div className="flex">
-                    <img
-                      className="rounded-full w-10  h-10 mr-4"
-                      src="/cat.png"
-                    />
+                  <div className="flex items-center">
+                    <div className=" w-10  h-10 mr-4  my-auto flex items-center">
+                      <Avatar />
+                    </div>
                     <img className="mr-4" src="/star.svg" />
-                    <button onClick={() => deleteFile(el.name)}>
-                      <img className="transform rotate-90" src="/3dot.svg" />
-                    </button>
+                    <div className="w-6 h-6 items-center my-auto">
+                      <button
+                        className=" flex align-middle items-center my-auto focus:outline-none"
+                        onClick={() => deleteFile(el.name)}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6 items-center my-auto"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1}
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -111,7 +128,8 @@ export default function dashboard() {
           })}
           <div
             key="default"
-            className=" cursor-pointer mb-4 rounded shadow-md rounded-md p-4 bg-white"
+            className=" cursor-pointer mb-4  shadow-md rounded-md p-4 bg-white"
+            onClick={() => console.log("test")}
           >
             <div className="flex mx-auto">
               <img className="mx-auto" src="/add.svg" />
