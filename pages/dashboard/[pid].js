@@ -98,8 +98,8 @@ export default function dashboardSlug() {
     },
     {
       title: "Calendar",
-      description: "4 x 3",
-      data: `{"color":"#C71585","h":3,"w":4,"name":"Calendar","types":"Calendar","api": "${process.env.NEXT_PUBLIC_SERVERURL}/Calendar/${fileName}"}`,
+      description: "4 x 4",
+      data: `{"color":"#C71585","h":4,"w":4,"name":"Calendar","types":"Calendar","api": "${process.env.NEXT_PUBLIC_SERVERURL}/Calendar/${fileName}"}`,
     },
   ];
 

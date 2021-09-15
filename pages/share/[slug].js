@@ -4,6 +4,7 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 import DashboardLayout from "../../components/dashboard/dashboardLayout";
 import Piechart from "../../components/charts/piechart";
 import Cookies from "js-cookie";
+import { tiles } from "../../utils/ui/ui";
 
 import { useRouter } from "next/router";
 
@@ -17,6 +18,7 @@ var layoutst = {
   xs: layout1,
   xxs: layout1,
 };
+
 
 let layouttemp = [];
 export default function shareSlug() {
@@ -56,96 +58,9 @@ export default function shareSlug() {
     return () => clearInterval(interval);
   });
 
-  function tiles(exp, el) {
-    var html = <h1>test</h1>;
-    switch (exp) {
-      case "image":
-        {
-          console.log(el);
-        }
-        html = <img src={el.data} />;
-        break;
-      case "number":
-        html = (
-          <p className="text-center font-bold text-3xl align-middle py-4">
-            {el.data}
-          </p>
-        );
-        break;
-      case "piechart":
-        console.log(el.data);
-        html = <Piechart dat={el.data} />;
-        break;
-      case "timestamps":
-        console.log(el.data);
-        html = (
-          <div>
-            <p>Start: {el.data[0]}</p>
-            <p>End: {el.data[1]}</p>
-          </div>
-        );
-        break;
-      case "table":
-        console.log(el.data);
-        html = (
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-              <tr>
-                {Object.keys(el.data[0]).map((e) => {
-                  return (
-                    <th
-                      scope="col"
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      {e}
-                    </th>
-                  );
-                })}
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              {el.data.map((e) => {
-                return (
-                  <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">{e.caseid}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">
-                        {e["concept:name"]}
-                      </div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">{e.id}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">
-                        {e["org:resource"]}
-                      </div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">{e["org:role"]}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">
-                        {e["time:timestamp"]}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        );
-        break;
-      default:
-        html = <textarea defaultValue="write something here..." />;
-        break;
-    }
-    return html;
-  }
 
-  const onDrop = async (layout, layoutItem, _event) => {};
+
+  const onDrop = async (layout, layoutItem, _event) => { };
 
   const onLayoutChange = async (layout, layouts) => {
     let temp = [...layoutState];
@@ -155,6 +70,13 @@ export default function shareSlug() {
     });
     layouttemp = layout;
   };
+  function updateText(data, i) {
+    console.log("updateText");
+  }
+
+  function addAll() {
+    console.log("addAll");
+  }
   return (
     <>
       <DashboardLayout
@@ -176,23 +98,47 @@ export default function shareSlug() {
         >
           {layoutState.map((el) => {
             return (
-              <div className="bg-white shadow-md rounded-md" key={el.i}>
-                <div className="border-b-1 p-4 rounded-t flex justify-between">
-                  <div className="flex">
+              <div
+                className={
+
+                  "bg-white shadow-md rounded-md"
+                }
+                key={el.i}
+              >
+                <div className="border-b-1 p-4 rounded-t flex justify-between drag cursor-move">
+                  <div className="flex w-full">
                     <img src="/eye.svg" />
-                    <p className="ml-2">{el.name}</p>
+                    <p className="my-auto ml-2 overflow-hidden overflow-ellipsis whitespace-nowrap">
+                      {el.name}
+                    </p>
                   </div>
-                  <div className="my-auto">
-                    <button>
-                      <img className="" src="/3dot.svg" />
+                  <div className="my-auto ">
+                    <button
+                      className="focus:outline-none hover:bg-blue-400 hover:bg-opacity-25 px-2 py-4 rounded "
+                      onClick={() => openSidebar(el.i)}
+                    >
+                      <img className="focus:outline-none" src="/3dot.svg" />
                     </button>
                   </div>
                 </div>
-                <>{tiles(el.type, el)}</>
+                <div
+                  style={{ height: "calc(100% - 3.5rem)" }}
+                  className="w-full"
+                >
+                  {tiles(el.type, el, addAll, updateText)}
+                </div>
               </div>
             );
           })}
           <style jsx>{`
+            .newshadow {
+              box-shadow: 0px 4px 30px rgb(22 33 74 / 5%);
+              border: 1px solid #e3e9f3;
+            }
+            .height {
+              height: 200px;
+              width: 100%;
+            }
             .border-b-1 {
               border-bottom: 1px solid #e8e8ef;
             }

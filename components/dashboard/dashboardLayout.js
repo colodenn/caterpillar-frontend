@@ -51,7 +51,9 @@ const DashboardLayout = (props) => {
   function exportPDF() {
     setExport(true);
 
-    window.open(`http://localhost/api/pdf/${fileName}`, "_blank").focus();
+    window
+      .open(`${process.env.NEXT_PUBLIC_SERVERURL}/pdf/${fileName}`, "_blank")
+      .focus();
   }
   const fileName = router.query.pid;
   const [searchTerm, setSearchTerm] = useState("");
@@ -119,8 +121,8 @@ const DashboardLayout = (props) => {
 
     {
       title: "Calendar",
-      description: "4 x 3",
-      data: `{"color":"#C71585","h":3,"w":4,"name":"Calendar","types":"Calendar","api": "${process.env.NEXT_PUBLIC_SERVERURL}/Calendar/${fileName}"}`,
+      description: "4 x 4",
+      data: `{"color":"#C71585","h":4,"w":4,"name":"Calendar","types":"Calendar","api": "${process.env.NEXT_PUBLIC_SERVERURL}/Calendar/${fileName}"}`,
     },
   ];
 
